@@ -5,7 +5,7 @@ if (!isset($_SESSION['user']) && empty($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
-$allowed = ['dashboard', 'users', '404', 'master_kelompok_aset', 'master_kategori_aset'];
+$allowed = ['dashboard', 'users', '404', 'master_kelompok_aset', 'master_kategori_aset', 'ruangan'];
 $page = $_GET['page'] ?? 'dashboard';
 if (!in_array($page, $allowed, true)) {
     $page = '404';

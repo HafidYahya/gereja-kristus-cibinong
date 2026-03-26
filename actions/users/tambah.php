@@ -17,7 +17,7 @@ if ($email_exist) {
 }
 $password = password_hash($password, PASSWORD_DEFAULT);
 $stmt = $conn->prepare("INSERT INTO users (u_nama, u_email, u_password, u_is_active) VALUES (?,?,?,?)");
-$stmt->bind_param('sssiss', $nama, $email, $password, $status);
+$stmt->bind_param('sssi', $nama, $email, $password, $status);
 $stmt->execute();
 $stmt->close();
 header('Location: ../../index.php?page=users&action=tambah&tambah&success=Pengguna+baru+berhasil+ditambahkan');

@@ -26,10 +26,10 @@ if ($exists) {
 if ($password !== '') {
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $conn->prepare('UPDATE users SET u_nama = ?, u_email = ?, u_password = ?, u_is_active = ? WHERE id = ?');
-    $stmt->bind_param('sssisi', $nama, $email, $hash, $status, $id);
+    $stmt->bind_param('sssii', $nama, $email, $hash, $status, $id);
 } else {
     $stmt = $conn->prepare('UPDATE users SET u_nama = ?, u_email = ?, u_is_active = ? WHERE id = ?');
-    $stmt->bind_param('ssisi', $nama, $email, $status, $id);
+    $stmt->bind_param('ssii', $nama, $email, $status, $id);
 }
 
 $stmt->execute();
