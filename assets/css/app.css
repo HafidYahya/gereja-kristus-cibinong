@@ -1,0 +1,330 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.layout {
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+.content {
+  background: #ffffff;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.topbar {
+  background: #ffffff;
+  border-bottom: 2px solid #f0f0f0;
+  padding: 10px 0;
+  position: relative;
+  z-index: 5;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  height: 100vh;
+  overflow-y: scroll;
+  border-right: 3px solid #e6b53c;
+  padding: 20px;
+  flex: 0 0 250px;
+  transition:
+    width 200ms ease,
+    padding 200ms ease,
+    transform 200ms ease;
+}
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.content-body {
+  flex: 1;
+  overflow: auto;
+}
+.sidebar-brand {
+  color: #333;
+  margin-bottom: 40px;
+}
+.sidebar-brand .brand-name {
+  color: #f5f5f5 !important;
+  font-family: "Archivo Black", sans-serif !important;
+  font-style: normal;
+  font-size: 25px;
+}
+.sidebar-brand i {
+  color: #e6b53c !important;
+}
+.sidebar .section-title {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.sidebar .sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 5px;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.sidebar .sidebar-nav a:hover {
+  background-color: #e6b53c;
+  color: #f5f5f5;
+}
+.sidebar .sidebar-nav a:hover i {
+  color: #f5f5f5;
+}
+.sidebar .sidebar-nav.active a {
+  background-color: #e6b53c;
+  color: #f5f5f5;
+}
+.sidebar .sidebar-nav.active i {
+  color: #f5f5f5;
+}
+.sidebar .sidebar-nav i {
+  color: white;
+  font-size: 15px;
+  margin-right: 10px;
+}
+.sidebar .sidebar-nav a {
+  color: white;
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: 400;
+}
+.sidebar .sidebar-nav a span {
+  flex: 1;
+  min-width: 0;
+  white-space: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 1051;
+}
+.sidebar-toggle i {
+  font-size: 1rem;
+}
+.layout.sidebar-collapsed .sidebar {
+  display: none;
+  width: 0;
+  flex: 0 0 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-right: 0;
+  transform: translateX(-100%);
+  overflow: hidden;
+}
+.sidebar.is-collapsed {
+  display: none;
+  width: 0;
+  flex: 0 0 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-right: 0;
+  transform: translateX(-100%);
+  overflow: hidden;
+}
+.layout.sidebar-collapsed .sidebar .sidebar-nav,
+.layout.sidebar-collapsed .sidebar .section-title,
+.layout.sidebar-collapsed .sidebar .sidebar-brand {
+  opacity: 0;
+}
+
+@media (max-width: 991.98px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1050;
+    width: 260px;
+    max-width: 85vw;
+    height: 100vh;
+    transform: translateX(-100%) !important;
+    transition: transform 300ms ease-in-out;
+    padding: 15px;
+    border-right: 3px solid #e6b53c;
+    overflow-y: auto;
+  }
+
+  .layout.sidebar-open .sidebar {
+    display: block !important;
+    transform: translateX(0) !important;
+  }
+  .sidebar.is-open {
+    display: block !important;
+    transform: translateX(0) !important;
+  }
+  .layout.sidebar-collapsed .sidebar {
+    display: block;
+    width: 260px;
+    max-width: 85vw;
+    height: 100vh;
+    transform: translateX(-100%);
+    padding: 15px;
+    border-right: 3px solid #e6b53c;
+    overflow-y: auto;
+  }
+  .layout.sidebar-open .sidebar,
+  .layout.sidebar-open.sidebar-collapsed .sidebar {
+    display: block !important;
+    transform: translateX(0) !important;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+
+  .layout.sidebar-open .sidebar-overlay {
+    display: block;
+  }
+  .sidebar-overlay.is-visible {
+    display: block;
+  }
+
+  .layout.sidebar-open .content-body {
+    pointer-events: none;
+  }
+
+  .sidebar-toggle {
+    pointer-events: auto;
+  }
+
+  .content {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .topbar {
+    position: relative;
+    z-index: 1051;
+  }
+
+  .topbar .container-fluid {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .content-body {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .p-4 {
+    padding: 0.75rem !important;
+  }
+
+  .page-title {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .page-header {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 0.75rem;
+  }
+  .page-header .page-title {
+    margin-bottom: 0;
+  }
+  .page-header .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+  }
+  .page-header .btn i {
+    margin-right: 0.5rem !important;
+  }
+
+  .table {
+    font-size: 0.8125rem;
+  }
+
+  .btn {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.375rem;
+    font-size: 0.75rem;
+  }
+
+  .identitas-user {
+    font-size: 0.8rem;
+    margin: 0 !important;
+  }
+
+  .form-select {
+    font-size: 0.875rem;
+  }
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table-responsive table {
+  min-width: 700px;
+}
+
+.table-responsive thead th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 2;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.table-responsive td,
+.table-responsive th {
+  white-space: nowrap;
+}
+
+.badge {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px !important;
+}
+
+.badge.bg-success {
+  background-color: rgba(97, 164, 67, 0.7) !important;
+}
+.badge.bg-danger {
+  background-color: rgba(167, 83, 20, 1) !important;
+}

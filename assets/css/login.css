@@ -1,0 +1,51 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.container-fluid {
+  background-image: url("../img/hero-img.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card {
+  background-color: rgba(230, 181, 60, 0.25) !important;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  width: 500px;
+  margin: 50px auto;
+}
+.card .card-header {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+.card .card-header .card-title {
+  font-family: "Roboto", sans-serif !important;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 30px;
+  color: #333333;
+}
+
+.card .card-body .btn-login {
+  background-color: #e6b53c;
+  color: white;
+  border: none;
+  border-radius: 20px 0px 20px 0px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.card .card-body .form-control {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+.card .card-body .form-control:focus {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+}
+.card .card-body .form-check-input {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+.card .card-body .form-check-input:checked {
+  background-color: #e6b53c !important;
+}
