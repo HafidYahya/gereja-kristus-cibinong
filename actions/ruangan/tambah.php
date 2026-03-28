@@ -11,7 +11,7 @@ $result = $stmt->get_result();
 $ruangan_exist = $result && $result->num_rows > 0;
 $stmt->close();
 if ($ruangan_exist) {
-    header('Location: ../../index.php?page=ruangan&action=tambah&tambah&error=Ruangan+' . $nama_ruangan . '+sudah+terdaftar');
+    header('Location: ../../admin/index.php?page=ruangan&action=tambah&tambah&error=Ruangan+' . $nama_ruangan . '+sudah+terdaftar');
     exit();
 }
 
@@ -28,11 +28,11 @@ if (isset($_FILES['gambar_ruangan']) && $_FILES['gambar_ruangan']['error'] !== 4
 
     if ($error === 0) {
         if (!in_array($mime, $allowedMime)) {
-            header('Location: ../../index.php?page=ruangan&action=tambah&error=File tidak valid');
+            header('Location: ../../admin/index.php?page=ruangan&action=tambah&error=File tidak valid');
             exit();
         }
         if ($size > 20000000) {
-            header('Location: ../../index.php?page=ruangan&action=tambah&tambah&error=Maksimal gambar 20 MB');
+            header('Location: ../../admin/index.php?page=ruangan&action=tambah&tambah&error=Maksimal gambar 20 MB');
             exit();
         }
         move_uploaded_file($tmpName, __DIR__ . '/../../assets/uploads/ruangan/' . $namaFile);
@@ -41,9 +41,9 @@ if (isset($_FILES['gambar_ruangan']) && $_FILES['gambar_ruangan']['error'] !== 4
         $stmt->bind_param('sssi', $nama_ruangan, $namaFile, $keterangan, $status);
         $stmt->execute();
         $stmt->close();
-        header('Location: ../../index.php?page=ruangan&action=tambah&tambah&success=Ruangan+baru+berhasil+ditambahkan');
+        header('Location: ../../admin/index.php?page=ruangan&action=tambah&tambah&success=Ruangan+baru+berhasil+ditambahkan');
     } else {
-        header('Location: ../../index.php?page=ruangan&action=tambah&error=Upload gagal');
+        header('Location: ../../admin/index.php?page=ruangan&action=tambah&error=Upload gagal');
         exit();
     }
 } else {
@@ -52,5 +52,6 @@ if (isset($_FILES['gambar_ruangan']) && $_FILES['gambar_ruangan']['error'] !== 4
     $stmt->bind_param('sssi', $nama_ruangan, $namaFile, $keterangan, $status);
     $stmt->execute();
     $stmt->close();
-    header('Location: ../../index.php?page=ruangan&action=tambah&tambah&success=Ruangan+baru+berhasil+ditambahkan');
+    header('Location: ../../admin/index.php?page=ruangan&action=tambah&tambah&success=Ruangan+baru+berhasil+ditambahkan');
 }
+

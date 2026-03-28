@@ -4,7 +4,7 @@ include __DIR__ . "/../../config/koneksi.php";
 $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
 
 if ($id <= 0) {
-    header('Location:../../index.php?page=ruangan&action=delete&error=Data+tidak+valid');
+    header('Location:../../admin/index.php?page=ruangan&action=delete&error=Data+tidak+valid');
     exit();
 }
 
@@ -27,4 +27,5 @@ if ($row && !empty($row['r_foto']) && $row['r_foto'] !== 'placeholder_ruangan') 
     }
 }
 
-header('Location:../../index.php?page=ruangan&action=delete&success=Data+berhasil+dihapus');
+header('Location:../../admin/index.php?page=ruangan&action=delete&success=Data+berhasil+dihapus');
+

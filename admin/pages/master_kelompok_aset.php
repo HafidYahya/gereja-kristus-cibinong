@@ -133,7 +133,7 @@ $error = $_GET['error'] ?? '';
                                 </td>
                                 <td>
                                     <form method="post" class="form-confirm-ubah-status"
-                                        action="actions/master_kelompok_aset/edit_status.php">
+                                        action="../actions/master_kelompok_aset/edit_status.php">
                                         <input type="hidden" name="id" value="<?= $data['id'] ?>">
                                         <button type="submit"
                                             class="btn btn-sm w-50 <?= (int) $data['kel_is_active'] === 1 ? 'btn-danger' : 'btn-success' ?>"><?= (int) $data["kel_is_active"] === 1 ? 'Nonaktifkan' : 'Aktifkan'  ?></button>
@@ -193,7 +193,7 @@ $error = $_GET['error'] ?? '';
                     <h5 class="modal-title" id="modal-tambah-master-kelompok-label">Tambah Master Kelompok Aset</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="actions/master_kelompok_aset/tambah.php" method="post" class="form-confirm-tambah">
+                <form action="../actions/master_kelompok_aset/tambah.php" method="post" class="form-confirm-tambah">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nama Master Kelompok Aset*</label>
@@ -289,3 +289,5 @@ $error = $_GET['error'] ?? '';
         });
     <?php endif; ?>
 </script>
+
+

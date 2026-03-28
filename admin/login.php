@@ -4,7 +4,7 @@ if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
     header('Location: index.php?page=dashboard');
     exit();
 }
-include __DIR__ . '/config/koneksi.php';
+include __DIR__ . '/../config/koneksi.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
@@ -47,7 +47,7 @@ $error = $_GET['error'] ?? '';
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="icon" href="assets/img/logo_gkc.png" type="image/png">
+    <link rel="icon" href="../assets/img/logo_gkc.png" type="image/png">
     <title>GKC LOGIN</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +55,7 @@ $error = $_GET['error'] ?? '';
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
 
 
 </head>
@@ -66,7 +66,7 @@ $error = $_GET['error'] ?? '';
             <div class="card">
                 <div class="card-header ">
                     <div class="d-flex align-items-baseline justify-content-start mb-2">
-                        <img src="assets/img/logo_gkc.png" alt="GKC Logo" width="30">
+                        <img src="../assets/img/logo_gkc.png" alt="GKC Logo" width="30">
                         <h5 class="card-title ms-2">GKC LOGIN</h5>
                     </div>
                     <p class="card-text text-start">Please login to your account.</p>

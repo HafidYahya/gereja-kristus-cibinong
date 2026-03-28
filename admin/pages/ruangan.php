@@ -135,7 +135,7 @@ $error = $_GET['error'] ?? '';
                                         data-bs-target="#modal-edit-ruangan-<?= $data['id'] ?>">
                                         <i class="far fa-pen-to-square"></i>
                                     </button>
-                                    <form action="actions/ruangan/delete.php" method="post"
+                                    <form action="../actions/ruangan/delete.php" method="post"
                                         class="d-inline form-confirm-delete">
                                         <input type="hidden" name="id" value="<?= (int) $data['id'] ?>">
                                         <button type="submit" class="btn btn-sm shadow-md text-danger">
@@ -196,7 +196,7 @@ $error = $_GET['error'] ?? '';
                     <h5 class="modal-title" id="modal-tambah-ruangan-label">Tambah Ruangan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="actions/ruangan/tambah.php" method="post" class="form-confirm-tambah"
+                <form action="../actions/ruangan/tambah.php" method="post" class="form-confirm-tambah"
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="mb-3">
@@ -275,7 +275,7 @@ $error = $_GET['error'] ?? '';
         <?php
         $fotoRuangan = $data['r_foto'] ?? '';
         $hasFotoRuangan = $fotoRuangan !== '' && $fotoRuangan !== 'placeholder_ruangan';
-        $fotoRuanganUrl = $hasFotoRuangan ? 'assets/uploads/ruangan/' . $fotoRuangan : '';
+        $fotoRuanganUrl = $hasFotoRuangan ? '../assets/uploads/ruangan/' . $fotoRuangan : '';
         ?>
         <div class="modal fade ruangan-edit-modal" id="modal-edit-ruangan-<?= $data['id'] ?>" tabindex="-1"
             aria-hidden="true" aria-labelledby="modal-edit-ruangan-label" data-ruangan-id="<?= (int) $data['id'] ?>">
@@ -285,7 +285,7 @@ $error = $_GET['error'] ?? '';
                         <h5 class="modal-title" id="modal-edit-ruangan-label-<?= $data['id'] ?>">Ubah Ruangan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="actions/ruangan/edit.php" method="post" class="form-confirm-edit"
+                    <form action="../actions/ruangan/edit.php" method="post" class="form-confirm-edit"
                         enctype="multipart/form-data">
                         <div class="modal-body">
                             <input type="hidden" name="id" value="<?= (int) $data['id'] ?>">
@@ -875,3 +875,6 @@ $error = $_GET['error'] ?? '';
         });
     <?php endif; ?>
 </script>
+
+
+

@@ -7,7 +7,7 @@ $password = trim($_POST['password'] ?? '');
 $status = isset($_POST['status']) ? (int) $_POST['status'] : 0;
 
 if ($id === '' || $nama === '' || $email === '') {
-    header('Location:../../index.php?page=users&action=update&error=Data+tidak+boleh+kosong');
+    header('Location:../../admin/index.php?page=users&action=update&error=Data+tidak+boleh+kosong');
     exit();
 }
 
@@ -19,7 +19,7 @@ $exists = $result && $result->num_rows > 0;
 $stmt->close();
 
 if ($exists) {
-    header('Location:../../index.php?page=users&action=update&error=Email+sudah+terdaftar');
+    header('Location:../../admin/index.php?page=users&action=update&error=Email+sudah+terdaftar');
     exit();
 }
 
@@ -35,4 +35,5 @@ if ($password !== '') {
 $stmt->execute();
 $stmt->close();
 
-header('Location:../../index.php?page=users&action=update&success=Data+berhasil+diubah');
+header('Location:../../admin/index.php?page=users&action=update&success=Data+berhasil+diubah');
+

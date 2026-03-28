@@ -1,6 +1,6 @@
 <?php
 session_start();
-include __DIR__ . "/config/koneksi.php";
+include __DIR__ . "/../config/koneksi.php";
 if (!isset($_SESSION['user']) && empty($_SESSION['user'])) {
     header('Location: login.php');
     exit();
@@ -22,11 +22,13 @@ if (!file_exists($content)) {
 $title = ucwords(str_replace(['-', '_'], ' ', $page . " | GKC"));
 
 // layout
-include __DIR__ . '/layouts/header.php';
-include __DIR__ . '/layouts/sidebar.php';
-include __DIR__ . '/layouts/navbar.php';
+include __DIR__ . '/../layouts/header.php';
+include __DIR__ . '/../layouts/sidebar.php';
+include __DIR__ . '/../layouts/navbar.php';
 
 // isi halaman
 include $content;
 
-include __DIR__ . '/layouts/footer.php';
+include __DIR__ . '/../layouts/footer.php';
+
+

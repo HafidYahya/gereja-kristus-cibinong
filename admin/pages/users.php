@@ -192,7 +192,7 @@ $error = $_GET['error'] ?? '';
                     <h5 class="modal-title" id="modal-tambah-user-label">Tambah Pengguna</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="actions/users/tambah.php" method="post" class="form-confirm-tambah">
+                <form action="../actions/users/tambah.php" method="post" class="form-confirm-tambah">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nama*</label>
@@ -233,7 +233,7 @@ $error = $_GET['error'] ?? '';
                     <h5 class="modal-title" id="modal-edit-user-label-<?= $user['id'] ?>">Ubah Pengguna</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="actions/users/edit.php" method="post" class="form-confirm-edit">
+                <form action="../actions/users/edit.php" method="post" class="form-confirm-edit">
                     <div class="modal-body">
                         <input type="hidden" name="id" value="<?= $user['id'] ?>">
 
@@ -374,3 +374,6 @@ getToast().fire({
 });
 <?php endif; ?>
 </script>
+
+
+
