@@ -47,11 +47,10 @@ if (isset($_FILES['gambar_ruangan']) && $_FILES['gambar_ruangan']['error'] !== 4
         exit();
     }
 } else {
-    $namaFile = "placeholder_ruangan";
+    $namaFile = "placeholder_ruangan.jpeg";
     $stmt = $conn->prepare("INSERT INTO ruangan (r_nama, r_foto, r_keterangan, r_is_active) VALUES (?,?,?,?)");
     $stmt->bind_param('sssi', $nama_ruangan, $namaFile, $keterangan, $status);
     $stmt->execute();
     $stmt->close();
     header('Location: ../../admin/index.php?page=ruangan&action=tambah&tambah&success=Ruangan+baru+berhasil+ditambahkan');
 }
-

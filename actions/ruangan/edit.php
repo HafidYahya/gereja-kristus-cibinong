@@ -54,7 +54,7 @@ if (isset($_FILES['gambar_ruangan']) && $_FILES['gambar_ruangan']['error'] !== 4
     }
     move_uploaded_file($tmpName, $uploadDir . $namaFile);
 
-    if ($gambar_lama !== '' && $gambar_lama !== 'placeholder_ruangan') {
+    if ($gambar_lama !== '' && $gambar_lama !== 'placeholder_ruangan.jpeg') {
         $oldPath = $uploadDir . $gambar_lama;
         if (is_file($oldPath)) {
             unlink($oldPath);
@@ -68,4 +68,3 @@ $stmt->execute();
 $stmt->close();
 
 header('Location:../../admin/index.php?page=ruangan&action=update&success=Data+berhasil+diubah');
-

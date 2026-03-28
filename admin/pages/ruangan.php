@@ -34,7 +34,7 @@ if (!empty($where)) {
     $whereSql = "WHERE " . implode(" AND ", $where);
 }
 
-$sql = "SELECT * FROM ruangan $whereSql LIMIT ? OFFSET ?";
+$sql = "SELECT * FROM ruangan $whereSql ORDER BY id DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $typesData = $types . "ii";
 $paramsData = array_merge($params, [$limit, $offset]);
@@ -329,7 +329,8 @@ $error = $_GET['error'] ?? '';
                                             <img class="w-100 h-100 ruangan-edit-image <?= $hasFotoRuangan ? '' : 'd-none' ?>"
                                                 style="object-fit:contain; display:block;"
                                                 src="<?= htmlspecialchars($fotoRuanganUrl) ?>">
-                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted ruangan-edit-placeholder <?= $hasFotoRuangan ? 'd-none' : '' ?>">
+                                            <div
+                                                class="w-100 h-100 d-flex align-items-center justify-content-center text-muted ruangan-edit-placeholder <?= $hasFotoRuangan ? 'd-none' : '' ?>">
                                                 Preview gambar
                                             </div>
                                         </div>
@@ -875,6 +876,3 @@ $error = $_GET['error'] ?? '';
         });
     <?php endif; ?>
 </script>
-
-
-
