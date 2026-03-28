@@ -25,17 +25,15 @@
 
     <small class="section-title fw-semibold text-secondary">Transaksi</small>
     <div class="sidebar-nav <?= $page === 'aset' ? 'active' : '' ?>">
-        <a class="nav-item" href="index.php?page=aset"><i class="fas fa-boxes-stacked"></i><span>Aset</span></a>
+        <a class="nav-item" href="index.php?page=aset"><i class="fas fa-boxes-stacked"></i><span>Aset Gereja</span></a>
     </div>
-    <div class="sidebar-nav <?= $page === 'konfirmasi_peminjaman_ruangan' ? 'active' : '' ?>">
-        <a class="nav-item" href="index.php?page=konfirmasi_peminjaman_ruangan"><i
-                class="fas fa-calendar-check"></i><span>Konfirmasi
-                Peminjaman Ruangan</span></a>
+    <div class="sidebar-nav <?= $page === 'approval_ruangan' ? 'active' : '' ?>">
+        <a class="nav-item" href="index.php?page=approval_ruangan"><i class="fas fa-calendar-check"></i><span>Approval
+                Ruangan</span></a>
     </div>
-    <div class="sidebar-nav <?= $page === 'konfirmasi_peminjaman_aset' ? 'active' : '' ?>">
-        <a class="nav-item" href="index.php?page=konfirmasi_peminjaman_aset"><i
-                class="fas fa-clipboard-list"></i><span>Konfirmasi
-                Peminjaman Aset</span></a>
+    <div class="sidebar-nav <?= $page === 'approval_aset' ? 'active' : '' ?>">
+        <a class="nav-item" href="index.php?page=approval_aset"><i class="fas fa-clipboard-list"></i><span>Approval
+                Aset</span></a>
     </div>
 
 
