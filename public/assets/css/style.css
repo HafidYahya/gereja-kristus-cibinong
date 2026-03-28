@@ -1,0 +1,57 @@
+:root {
+  --primary-color: #f2a819;
+  --secondary-color: #f5f5f5;
+  --font-main: "Google Sans", sans-serif;
+}
+
+.navbar .navbar-brand {
+  font-family: var(--font-main) !important;
+  font-weight: 500;
+}
+.navbar .navbar-nav .nav-item.item-menu {
+  margin-right: 10px;
+}
+.navbar .navbar-nav .nav-link {
+  color: var(--secondary-color);
+}
+.navbar .navbar-nav .nav-link.active {
+  color: var(--primary-color);
+}
+
+.navbar .btn-login {
+  width: 120px !important;
+  color: #fff !important;
+  background-color: var(--primary-color) !important;
+  font-family: var(--font-main) !important;
+  font-weight: 500;
+}
+.navbar .btn-register {
+  width: 120px !important;
+  color: #fff !important;
+  border: 2px solid var(--primary-color) !important;
+  font-family: var(--font-main) !important;
+  font-weight: 500;
+}
+.navbar-toggler {
+  border: none !important;
+}
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.navbar .profile-jemaat {
+  width: 40px;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 1px rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 991.98px) {
+  .navbar .btn-login {
+    margin: 20px 0 0 5px;
+  }
+  .navbar .btn-register {
+    margin: 20px 0 0 5px;
+  }
+}
