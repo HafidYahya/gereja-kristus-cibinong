@@ -28,17 +28,24 @@ $dataRuangan = $result->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
         <div class="row mb-3 ">
-            <?php foreach ($dataRuangan as $ruangan): ?>
-                <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
-                    <div class="card shadow-md mx-auto">
-                        <img src="assets/uploads/ruangan/<?= $ruangan['r_foto'] ?>" class="card-img-top shadow"
-                            alt="<?= $ruangan['r_nama'] ?>">
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><?= ucwords($ruangan['r_nama']) ?></h5>
+            <?php if (empty($dataRuangan)): ?>
+                <div class="col-lg-12 col-md-12 text-center mb-3">
+                    <h3 class="text-danger fw-semi-bold"><i class="fas fa-info-circle"></i> Belum ada ruangan yang tersedia.
+                    </h3>
+                </div>
+            <?php else: ?>
+                <?php foreach ($dataRuangan as $ruangan): ?>
+                    <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
+                        <div class="card shadow-md mx-auto">
+                            <img src="assets/uploads/ruangan/<?= $ruangan['r_foto'] ?>" class="card-img-top shadow"
+                                alt="<?= $ruangan['r_nama'] ?>">
+                            <div class="card-body">
+                                <h5 class="card-title text-center"><?= ucwords($ruangan['r_nama']) ?></h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
         <div class="mb-3 text-center">
             <a href="ruangan" class="btn btn-selengkapnya rounded-pill">Selengkapnya <i
