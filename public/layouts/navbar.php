@@ -33,6 +33,8 @@ $page = $_GET['url'] ?? 'home';
 </head>
 
 <body>
+    <!-- Sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- NAVBAR START-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
@@ -44,12 +46,12 @@ $page = $_GET['url'] ?? 'home';
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <!-- Jika Jemaat belum Login -->
-                <?php if (!isset($_SESSION['jemaat']) && empty($_SESSION['jemaat'])): ?>
-                <span class="navbar-toggler-icon"></span>
+                <?php if (!isset($_SESSION['jemaat_id']) && empty($_SESSION['jemaat_id'])): ?>
+                    <span class="navbar-toggler-icon"></span>
                 <?php else: ?>
-                <!-- Jika sudah Login -->
-                <img src="public/assets/images/<?= $_SESSION['foto-jemaat'] ?? 'profile-default.jpg' ?>" alt="Profile"
-                    class="profile-jemaat d-inline-block align-text-center">
+                    <!-- Jika sudah Login -->
+                    <img src="public/assets/images/<?= $_SESSION['jemaat_foto'] ?? 'profile-default.jpg' ?>" alt="Profile"
+                        class="profile-jemaat d-inline-block align-text-center">
                 <?php endif; ?>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -70,18 +72,18 @@ $page = $_GET['url'] ?? 'home';
 
                 <!-- BUTTON (kanan) -->
                 <!-- Jika Jemaat belum Login -->
-                <?php if (!isset($_SESSION['jemaat']) && empty($_SESSION['jemaat'])): ?>
-                <div class="d-flex gap-2 justify-content-center">
-                    <a class="btn-login btn btn-sm rounded-pill" href="login">Masuk</a>
-                    <a class="btn-register btn btn-sm rounded-pill" href="register">Daftar</a>
-                </div>
+                <?php if (!isset($_SESSION['jemaat_id']) && empty($_SESSION['jemaat_id'])): ?>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <a class="btn-login btn btn-sm rounded-pill" href="login">Masuk</a>
+                        <a class="btn-register btn btn-sm rounded-pill" href="register">Daftar</a>
+                    </div>
                 <?php else: ?>
-                <!-- Jika sudah Login -->
-                <div class="d-flex gap-2 justify-content-center">
-                    <a class="btn text-white" href="#"><?= $_SESSION['nama-jemaat'] ?? 'Profil' ?><img
-                            src="public/assets/images/<?= $_SESSION['foto-jemaat'] ?? 'profile-default.jpg' ?>"
-                            alt="Profile" class="d-none profile-jemaat d-md-inline-block align-text-center ms-3"></a>
-                </div>
+                    <!-- Jika sudah Login -->
+                    <div class="d-flex gap-2 justify-content-center">
+                        <a class="btn text-white" href="#"><?= $_SESSION['jemaat_name'] ?? 'Profil' ?><img
+                                src="public/assets/images/<?= $_SESSION['jemaat_foto'] ?? 'profile-default.jpg' ?>"
+                                alt="Profile" class="d-none profile-jemaat d-md-inline-block align-text-center ms-3"></a>
+                    </div>
                 <?php endif; ?>
 
             </div>

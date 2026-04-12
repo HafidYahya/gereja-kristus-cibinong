@@ -1,4 +1,5 @@
 <?php
+session_start();
 include __DIR__ . "/config/koneksi.php";
 
 $url = $_GET['url'] ?? 'home';

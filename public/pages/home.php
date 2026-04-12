@@ -4,6 +4,8 @@ $stmt = $conn->prepare("SELECT * FROM ruangan WHERE r_is_active = 1 ORDER BY id 
 $stmt->execute();
 $result = $stmt->get_result();
 $dataRuangan = $result->fetch_all(MYSQLI_ASSOC);
+$success = $_GET['success'] ?? '';
+$error = $_GET['error'] ?? '';
 ?>
 
 <main class="container-home container mt-5 pt-5">
@@ -54,3 +56,23 @@ $dataRuangan = $result->fetch_all(MYSQLI_ASSOC);
     </section>
 
 </main>
+<!-- Sweet Alert -->
+<script>
+    <?php if ($success !== '') : ?>
+        Swal.fire({
+            title: "Berhasil",
+            text: "<?= $success ?>",
+            icon: "success",
+            draggable: true
+        });
+    <?php endif; ?>
+
+    <?php if ($error !== '') : ?>
+        Swal.fire({
+            title: "Gagal!",
+            text: "<?= $error ?>",
+            icon: "error",
+            draggable: true
+        });
+    <?php endif; ?>
+</script>

@@ -34,7 +34,7 @@ if (!empty($where)) {
     $whereSql = "WHERE " . implode(" AND ", $where);
 }
 
-$sql = "SELECT * FROM master_kategori_aset $whereSql LIMIT ? OFFSET ?";
+$sql = "SELECT * FROM master_kategori_aset $whereSql ORDER BY kat_is_active DESC, id DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $typesData = $types . "ii";
 $paramsData = array_merge($params, [$limit, $offset]);
@@ -77,7 +77,7 @@ $error = $_GET['error'] ?? '';
     <form method="GET">
         <div class="row mb-3">
             <div class="col-sm-12 col-lg-4">
-                <label class="form-label" for=""><i class="fas fa-filter"></i> Filter</label>
+                <label class="form-label" for=""><i class="fas fa-filter"></i> Status</label>
                 <input type="hidden" name="page" value="master_kategori_aset">
                 <select name="filter" class="form-select border border-warning">
                     <option value="">Semua Status</option>
@@ -126,7 +126,7 @@ $error = $_GET['error'] ?? '';
                                 <td><?= $no++ ?></td>
                                 <td><?= htmlspecialchars($data['kat_nama']) ?></td>
                                 <td>
-                                    <span
+                                    <span style="min-width: 100px"
                                         class="badge badge-sm <?= (int) $data['kat_is_active'] === 1 ? 'bg-success' : 'bg-danger' ?>">
                                         <?= (int) $data['kat_is_active'] === 1 ? 'Aktif' : 'Tidak Aktif' ?>
                                     </span>
@@ -288,5 +288,3 @@ $error = $_GET['error'] ?? '';
         });
     <?php endif; ?>
 </script>
-
-

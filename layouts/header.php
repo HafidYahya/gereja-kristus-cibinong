@@ -23,6 +23,8 @@ $page = $page ?? '';
     <link rel="stylesheet" href="../assets/css/app.css">
     <!-- CROPPER JS -->
     <link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
+    <!-- CSS Quill -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 
 </head>
@@ -32,4 +34,6 @@ $page = $page ?? '';
     <script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
     <!-- Sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- JS Quill -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <div class="layout d-flex" id="app-layout">

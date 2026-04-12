@@ -15,6 +15,9 @@
         <a class="nav-item" href="index.php?page=master_kategori_aset"><i class="fas fa-tags"></i><span>Master Kategori
                 Aset</span></a>
     </div>
+    <div class="sidebar-nav <?= $page === 'master_aset' ? 'active' : '' ?>">
+        <a class="nav-item" href="index.php?page=master_aset"><i class="fas fa-box"></i><span>Master Aset</span></a>
+    </div>
     <div class="sidebar-nav <?= $page === 'ruangan' ? 'active' : '' ?>">
         <a class="nav-item" href="index.php?page=ruangan"><i class="fas fa-door-open"></i><span>Ruangan</span></a>
     </div>
@@ -25,7 +28,7 @@
 
     <small class="section-title fw-semibold text-secondary">Transaksi</small>
     <div class="sidebar-nav <?= $page === 'aset' ? 'active' : '' ?>">
-        <a class="nav-item" href="index.php?page=aset"><i class="fas fa-boxes-stacked"></i><span>Aset Gereja</span></a>
+        <a class="nav-item" href="index.php?page=aset"><i class="fas fa-boxes-stacked"></i><span>Aset</span></a>
     </div>
     <div class="sidebar-nav <?= $page === 'approval_ruangan' ? 'active' : '' ?>">
         <a class="nav-item" href="index.php?page=approval_ruangan"><i class="fas fa-calendar-check"></i><span>Approval

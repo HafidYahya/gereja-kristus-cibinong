@@ -48,11 +48,18 @@
   box-shadow: 0 2px 5px 1px rgba(255, 255, 255, 0.4);
 }
 .container-home section h1,
-.container-home section h2 {
+.container-home section h2,
+.container-register section h1,
+.container-register section h2,
+.container-register section h1,
+.container-login section h1,
+.container-login section h2 {
   font-family: var(--font-main) !important;
   color: var(--primary-color) !important;
 }
-.container-home p {
+.container-home p,
+.container-register p,
+.container-login p {
   font-family: var(--font-desc) !important;
   color: #777;
 }
@@ -76,6 +83,66 @@
 .section-ruangan .btn-selengkapnya:hover {
   background-color: var(--primary-color) !important;
   color: var(--secondary-color) !important;
+}
+
+.container-register {
+  padding: 2.5rem 2rem;
+  border: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  background-color: #fff;
+}
+
+.register-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+}
+
+.register-profile__preview {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-color);
+  background-color: var(--secondary-color);
+}
+
+.register-profile__input {
+  display: none;
+}
+
+.register-profile__button {
+  font-family: var(--font-main);
+  font-weight: 500;
+}
+.btn-register-now {
+  width: 100%;
+  font-family: var(--font-main);
+  font-weight: 500;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+}
+.btn-register-now:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  opacity: 0.9;
+}
+.btn-login {
+  background-color: var(--primary-color);
+  color: #fff;
+  font-family: var(--font-main);
+  font-weight: 500;
+}
+.btn-login:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  opacity: 0.9;
 }
 
 .footer-gkc {
@@ -162,6 +229,10 @@
   }
   .footer-gkc__menu {
     align-items: flex-start;
+  }
+  .container-login {
+    padding-right: 5rem;
+    padding-left: 5rem;
   }
 }
 
