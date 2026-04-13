@@ -135,8 +135,8 @@ $error = $_GET['error'] ?? '';
                                     <form method="post" class="form-confirm-ubah-status"
                                         action="../actions/master_kelompok_aset/edit_status.php">
                                         <input type="hidden" name="id" value="<?= $data['id'] ?>">
-                                        <button type="submit"
-                                            class="btn btn-sm w-50 <?= (int) $data['kel_is_active'] === 1 ? 'btn-danger' : 'btn-success' ?>"><?= (int) $data["kel_is_active"] === 1 ? 'Nonaktifkan' : 'Aktifkan'  ?></button>
+                                        <button style="min-width: 100px" type="submit"
+                                            class="btn btn-sm  <?= (int) $data['kel_is_active'] === 1 ? 'btn-danger' : 'btn-success' ?>"><?= (int) $data["kel_is_active"] === 1 ? 'Nonaktifkan' : 'Aktifkan'  ?></button>
                                     </form>
 
                                 </td>

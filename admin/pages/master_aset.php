@@ -227,8 +227,8 @@ $error = $_GET['error'] ?? '';
                                     <form method="post" class="form-confirm-ubah-status d-inline-block"
                                         action="../actions/master_aset/edit_status.php">
                                         <input type="hidden" name="id" value="<?= $data['id'] ?>">
-                                        <button type="submit"
-                                            class="btn btn-sm w-100 <?= (int) $data['ma_is_active'] === 1 ? 'btn-danger' : 'btn-success' ?>"><?= (int) $data["ma_is_active"] === 1 ? 'Nonaktifkan' : 'Aktifkan'  ?></button>
+                                        <button style="min-width: 100px" type="submit"
+                                            class="btn btn-sm <?= (int) $data['ma_is_active'] === 1 ? 'btn-danger' : 'btn-success' ?>"><?= (int) $data["ma_is_active"] === 1 ? 'Nonaktifkan' : 'Aktifkan'  ?></button>
                                     </form>
 
                                 </td>
