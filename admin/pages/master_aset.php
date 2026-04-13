@@ -44,13 +44,6 @@ if ($filterKategori !== '') {
     $params[] = (int)$filterKategori;
 }
 
-if ($search !== '') {
-    $where[] = "(ma_nama LIKE ? OR ma_merk LIKE ?)";
-    $types .= "ss";
-    $like = "%$search%";
-    $params[] = $like;
-    $params[] = $like;
-}
 
 $whereSql = '';
 if (!empty($where)) {
@@ -269,7 +262,7 @@ $error = $_GET['error'] ?? '';
             <!-- Next -->
             <li class="page-item <?= ($p >= $totalPages) ? 'disabled' : '' ?>">
                 <a class="page-link"
-                    href="index.php?page=master_aset&p=<?= $p + 1 ?>&filter=<?= urlencode($filter) ?>&search=<?= urlencode($search) ?>">
+                    href="index.php?page=master_aset&p=<?= $p + 1 ?>&filter=<?= urlencode($filterStatus) ?>&search=<?= urlencode($search) ?>">
                     Next
                 </a>
             </li>
