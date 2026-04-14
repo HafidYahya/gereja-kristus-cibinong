@@ -2,12 +2,13 @@
 include __DIR__ . "/../../config/koneksi.php";
 
 $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+$p = isset($_POST['p']) ? trim($_POST['p']) : '';
 $filterKelompok = isset($_POST['filter_kelompok']) ? $_POST['filter_kelompok'] : '';
 $filterKategori = isset($_POST['filter_kategori']) ? $_POST['filter_kategori'] : '';
 $maId = isset($_POST['ma_id']) ? (int) $_POST['ma_id'] : 0;
 
 if ($id <= 0) {
-    header('Location:../../admin/index.php?page=detail_aset&filter_kelompok=' . urlencode($filterKelompok) . '&filter_kategori=' . urlencode($filterKategori) . '&ma_id=' . $maId . '&action=delete&error=Data+tidak+valid');
+    header('Location:../../admin/index.php?page=detail_aset&p=' . urlencode($p) . '&filter_kelompok=' . urlencode($filterKelompok) . '&filter_kategori=' . urlencode($filterKategori) . '&ma_id=' . $maId . '&action=delete&error=Data+tidak+valid');
     exit();
 }
 
@@ -30,4 +31,4 @@ if ($row && !empty($row['a_file_dokumen'])) {
     }
 }
 
-header('Location:../../admin/index.php?page=detail_aset&filter_kelompok=' . urlencode($filterKelompok) . '&filter_kategori=' . urlencode($filterKategori) . '&ma_id=' . $maId . '&action=delete&success=Data+berhasil+dihapus');
+header('Location:../../admin/index.php?page=detail_aset&p=' . urlencode($p) . '&filter_kelompok=' . urlencode($filterKelompok) . '&filter_kategori=' . urlencode($filterKategori) . '&ma_id=' . $maId . '&action=delete&success=Data+berhasil+dihapus');

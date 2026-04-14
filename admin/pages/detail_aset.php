@@ -330,6 +330,7 @@ $error = $_GET['error'] ?? '';
                                     <form action="../actions/aset/delete.php" method="post"
                                         class="d-inline form-confirm-delete">
                                         <input type="hidden" name="id" value="<?= (int) $data['a_id'] ?>">
+                                        <input type="hidden" name="p" value="<?= $p ?>">
                                         <input type="hidden" name="ma_id" value="<?= $maId ?>">
                                         <input type="hidden" name="filter_kelompok" value="<?= $filterKelompok ?>">
                                         <input type="hidden" name="filter_kategori" value="<?= $filterKategori ?>">
@@ -382,6 +383,126 @@ $error = $_GET['error'] ?? '';
 
         </ul>
     </nav>
+
+
+    <!-- MODAL DETAIL -->
+    <?php foreach ($aset as $data) : ?>
+        <div class="modal fade" id="modal-detail-aset-<?= $data['a_id'] ?>" tabindex="-1" aria-hidden="true"
+            aria-labelledby="modal-detail-aset-label">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title" id="modal-detail-aset-label">Detail Aset</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="p-3 border rounded bg-light">
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        <h6 class="mb-0 fw-bold">
+                                            <?= htmlspecialchars($data['ma_nama'] ?? '-') ?>
+                                        </h6>
+                                        <span class="badge bg-secondary">
+                                            <?= ucwords(htmlspecialchars($data['nama_kelompok'] ?? '-')) ?>
+                                        </span>
+                                        <span class="badge bg-info text-dark">
+                                            <?= ucwords(htmlspecialchars($data['nama_kategori'] ?? '-')) ?>
+                                        </span>
+                                    </div>
+                                    <div class="text-muted small mt-1">
+                                        Merk: <?= htmlspecialchars($data['ma_merk'] ?? '-') ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <div class="border rounded p-3 h-100">
+                                    <h6 class="fw-semibold mb-2">Informasi Aset</h6>
+                                    <div class="mb-2">
+                                        <div class="text-muted small">Status</div>
+                                        <div>
+                                            <?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_status_aset'] ?? '-'))) ?>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="text-muted small">Kondisi</div>
+                                        <div>
+                                            <?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_kondisi_aset'] ?? '-'))) ?>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="text-muted small">Lokasi</div>
+                                        <div><?= ucwords(htmlspecialchars($data['a_lokasi'] ?? '-')) ?></div>
+                                    </div>
+                                    <div class="mb-0">
+                                        <div class="text-muted small">Lokasi (Ruangan)</div>
+                                        <div><?= htmlspecialchars($data['r_nama'] ?? '-') ?></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <div class="border rounded p-3 h-100">
+                                    <h6 class="fw-semibold mb-2">Informasi Perolehan</h6>
+                                    <div class="mb-2">
+                                        <div class="text-muted small">Tanggal Perolehan</div>
+                                        <div>
+                                            <?= $data['a_tgl_perolehan'] ? date('d/m/Y', strtotime($data['a_tgl_perolehan'])) : '-' ?>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="text-muted small">Harga Perolehan</div>
+                                        <div>Rp. <?= number_format($data['a_harga_perolehan'] ?? 0, 0, ',', '.') ?></div>
+                                    </div>
+                                    <div class="mb-0">
+                                        <div class="text-muted small">Estimasi Harga (<?= date('Y') ?>)</div>
+                                        <div>Rp. <?= number_format($data['a_estimasi_harga'] ?? 0, 0, ',', '.') ?></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="border rounded p-3">
+                                    <h6 class="fw-semibold mb-2">Spesifikasi</h6>
+                                    <div class="bg-white border rounded p-2" style="min-height:80px;">
+                                        <?= $data['ma_spesifikasi'] ? $data['ma_spesifikasi'] : '<span class="text-muted">-</span>' ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="border rounded p-3">
+                                    <h6 class="fw-semibold mb-2">Keterangan</h6>
+                                    <div class="text-muted">
+                                        <?= $data['a_keterangan'] ? htmlspecialchars($data['a_keterangan']) : '-' ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="border rounded p-3">
+                                    <h6 class="fw-semibold mb-2">File Dokumen</h6>
+                                    <?php if (!empty($data['a_file_dokumen'])): ?>
+                                        <button class="btn btn-sm btn-warning text-white border" data-bs-toggle="modal"
+                                            data-bs-target="#modalFile<?= $data['a_id'] ?>">
+                                            Lihat File
+                                        </button>
+                                    <?php else: ?>
+                                        <span class="text-muted">File tidak tersedia</span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn rounded-pill btn-light border border-dark"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
 
     <!-- MODAL FILE DOKUMEN -->
     <?php foreach ($aset as $data) : ?>
@@ -447,145 +568,217 @@ $error = $_GET['error'] ?? '';
     <?php endforeach; ?>
 
 
-    <!-- MODAL TAMBAH -->
-    <div class="modal fade modal-lg" id="modal-tambah-aset" tabindex="-1" aria-hidden="true"
-        aria-labelledby="modal-tambah-master-aset-label">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-warning">
-                    <h5 class="modal-title" id="modal-tambah-aset-label">Tambah Aset</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="../actions/aset/tambah.php" method="post" class="form-confirm-tambah"
-                    id="form-tambah-aset" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="row">
+    <!-- MODAL EDIT -->
+    <?php foreach ($aset as $data) : ?>
+        <div class="modal fade" id="modal-edit-aset-<?= $data['a_id'] ?>" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
 
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Aset*</label>
-                                <select class="form-control" name="master_aset_id" id="master_aset_id" required>
-                                    <option value="">Pilih Aset</option>
-                                    <?php foreach ($master_aset as $aset): ?>
-                                        <option value="<?= $aset['id'] ?>" data-merk="<?= $aset['ma_merk'] ?>"
-                                            data-spesifikasi="<?= htmlspecialchars($aset['ma_spesifikasi']) ?>"
-                                            data-kelompok="<?= $aset['nama_kelompok'] ?>"
-                                            data-kategori="<?= $aset['nama_kategori'] ?>">
-                                            <?= $aset['ma_nama'] ?>
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title">Edit Aset</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form action="../actions/aset/edit.php" method="post" enctype="multipart/form-data"
+                        class="form-confirm-edit">
+                        <div class="modal-body">
+                            <div class="row">
+
+                                <!-- HIDDEN ID -->
+                                <input type="hidden" name="id" value="<?= $data['a_id'] ?>">
+
+                                <!-- HIDDEN GAMBAR -->
+                                <input type="hidden" name="gambar_lama" value="<?= $data['a_file_dokumen'] ?>">
+
+                                <!-- HIDDEN FILTERS -->
+                                <input type="hidden" name="p" value="<?= $p ?>">
+                                <input type="hidden" name="ma_id" value="<?= $maId ?>">
+                                <input type="hidden" name="filter_kelompok" value="<?= $filterKelompok ?>">
+                                <input type="hidden" name="filter_kategori" value="<?= $filterKategori ?>">
+
+                                <!-- MASTER ASET -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Aset*</label>
+                                    <select id="master_aset_id" class="form-control" name="master_aset_id" required>
+                                        <?php foreach ($master_aset as $ma): ?>
+                                            <option value="<?= $ma['id'] ?>" data-merk="<?= $ma['ma_merk'] ?>"
+                                                data-spesifikasi="<?= htmlspecialchars($ma['ma_spesifikasi']) ?>"
+                                                data-kelompok="<?= $ma['nama_kelompok'] ?>"
+                                                data-kategori="<?= $ma['nama_kategori'] ?>"
+                                                <?= ($ma['id'] == $data['a_master_aset_id']) ? 'selected' : '' ?>>
+                                                <?= $ma['ma_nama'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <!-- MERK -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Merk</label>
+                                    <input id="merk" type="text" class="form-control" value="<?= $data['ma_merk'] ?>"
+                                        disabled>
+                                </div>
+
+                                <!-- SPESIFIKASI -->
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Spesifikasi</label>
+                                    <div id="spesifikasi_view" class="form-control"
+                                        style="min-height:100px; background-color: #e8ecee">
+                                        <?= $data['ma_spesifikasi'] ?>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Kelompok Aset</label>
+                                    <input class="form-control kelompok_aset" id="kelompok_aset"
+                                        value="<?= $data['nama_kelompok'] ?>" disabled>
+                                </div>
+
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Kategori Aset</label>
+                                    <input class="form-control kategori_aset" id="kategori_aset"
+                                        value="<?= $data['nama_kategori'] ?>" disabled>
+                                </div>
+
+                                <!-- FILE -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">File Dokumen</label>
+                                    <input type="file" class="form-control" name="file_dokumen">
+                                    <?php if (!empty($data['a_file_dokumen'])): ?>
+                                        <div class="mt-1">
+                                            <a href="../assets/uploads/dokumen_file/<?= $data['a_file_dokumen'] ?>"
+                                                target="_blank" download="<?= $data['a_file_dokumen'] ?>"
+                                                style="text-decoration: none;"> <small
+                                                    style="display:inline-block; max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                                    [Unduh] File saat ini: <?= $data['a_file_dokumen'] ?>
+                                                </small>
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+                                    <span class="form-text fst-italic">Format file: PDF, PNG, JPG, JPEG (Max 20 MB)</span>
+                                </div>
+
+                                <!-- TANGGAL -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Tanggal Perolehan*</label>
+                                    <input type="date" class="form-control" name="tanggal_perolehan"
+                                        value="<?= $data['a_tgl_perolehan'] ?>" required>
+                                </div>
+
+                                <!-- HARGA -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Harga Perolehan*</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white border border-end-0">Rp.
+                                        </span>
+                                        <input type="text" class="form-control border border-start-0" id="harga_perolehan"
+                                            name="harga_perolehan" inputmode="numeric" required
+                                            value="<?= $data['a_harga_perolehan'] ?>">
+                                    </div>
+                                </div>
+
+                                <!-- ESTIMASI -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Estimasi Harga*</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white border border-end-0">Rp.
+                                        </span>
+                                        <input type="text" class="form-control border border-start-0" id="estimasi_harga"
+                                            name="estimasi_harga" value="<?= $data['a_estimasi_harga'] ?>"
+                                            inputmode="numeric" required>
+                                    </div>
+                                </div>
+
+                                <!-- RUANGAN -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Lokasi (Ruangan)</label>
+                                    <select class="form-control" name="ruangan_id">
+                                        <option value="">Pilih Ruangan</option>
+                                        <?php foreach ($ruangan as $r): ?>
+                                            <option value="<?= $r['id'] ?>"
+                                                <?= ($r['id'] == $data['a_lokasi_ruangan_id']) ? 'selected' : '' ?>>
+                                                <?= $r['r_nama'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <!-- LOKASI -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Lokasi</label>
+                                    <input type="text" class="form-control" name="lokasi" value="<?= $data['a_lokasi'] ?>">
+                                </div>
+
+                                <!-- STATUS -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Status Aset*</label>
+                                    <select class="form-control" name="status_aset" required>
+                                        <option value="terpakai"
+                                            <?= $data['a_status_aset'] == 'terpakai' ? 'selected' : '' ?>>
+                                            Terpakai</option>
+                                        <option value="tidak_terpakai"
+                                            <?= $data['a_status_aset'] == 'tidak_terpakai' ? 'selected' : '' ?>>Tidak
+                                            Terpakai
                                         </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                                        <option value="write_off"
+                                            <?= $data['a_status_aset'] == 'write_off' ? 'selected' : '' ?>>
+                                            Write Off</option>
+                                        <option value="dipinjam"
+                                            <?= $data['a_status_aset'] == 'dipinjam' ? 'selected' : '' ?>>
+                                            Dipinjam</option>
+                                    </select>
+                                </div>
 
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Merk</label>
-                                <input type="text" class="form-control" id="merk" disabled>
-                            </div>
+                                <!-- KONDISI -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label class="form-label">Kondisi Aset*</label>
+                                    <select class="form-control" name="kondisi_aset" required>
+                                        <option value="baik" <?= $data['a_kondisi_aset'] == 'baik' ? 'selected' : '' ?>>
+                                            Baik
+                                        </option>
+                                        <option value="cukup" <?= $data['a_kondisi_aset'] == 'cukup' ? 'selected' : '' ?>>
+                                            Cukup
+                                        </option>
+                                        <option value="rusak_ringan"
+                                            <?= $data['a_kondisi_aset'] == 'rusak_ringan' ? 'selected' : '' ?>>Rusak
+                                            Ringan
+                                        </option>
+                                        <option value="rusak_sedang"
+                                            <?= $data['a_kondisi_aset'] == 'rusak_sedang' ? 'selected' : '' ?>>Rusak
+                                            Sedang
+                                        </option>
+                                        <option value="rusak_berat"
+                                            <?= $data['a_kondisi_aset'] == 'rusak_berat' ? 'selected' : '' ?>>Rusak
+                                            Berat
+                                        </option>
+                                    </select>
+                                </div>
 
-                            <div class="col-12 mb-3">
-                                <label class="form-label fw-semibold">Spesifikasi</label>
-                                <div id="spesifikasi_view" class="form-control"
-                                    style="min-height:100px; background-color: #e8ecee"></div>
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Kelompok Aset</label>
-                                <input class="form-control" id="kelompok_aset" disabled>
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Kategori Aset</label>
-                                <input class="form-control" id="kategori_aset" disabled>
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">File Dokumen</label>
-                                <input type="file" class="form-control" name="file_dokumen">
-                                <span class="form-text fst-italic">Format file: PDF, PNG, JPG, JPEG (Max 20 MB)</span>
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Tanggal Perolehan*</label>
-                                <input type="date" class="form-control" name="tanggal_perolehan" required>
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Harga Perolehan*</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white border border-end-0" id="harga_perolehan">Rp.
-                                    </span>
-                                    <input type="text" class="form-control border border-start-0" id="harga_perolehan"
-                                        name="harga_perolehan" required>
+                                <!-- KETERANGAN -->
+                                <div class="col-12">
+                                    <label class="form-label">Keterangan</label>
+                                    <textarea name="keterangan" class="form-control"><?= $data['a_keterangan'] ?></textarea>
                                 </div>
 
                             </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Estimasi Harga (<?= date('Y') ?>)*</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white border border-end-0" id="estimasi_harga">Rp.
-                                    </span>
-                                    <input type="text" class="form-control border border-start-0" id="estimasi_harga"
-                                        name="estimasi_harga" required>
-                                </div>
-
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Lokasi (Ruangan)</label>
-                                <select class="form-control" name="ruangan_id">
-                                    <option value="">Pilih Ruangan</option>
-                                    <?php foreach ($ruangan as $r): ?>
-                                        <option value="<?= $r['id'] ?>"><?= $r['r_nama'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Lokasi</label>
-                                <input type="text" class="form-control" name="lokasi">
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Status Aset*</label>
-                                <select class="form-control" name="status_aset" required>
-                                    <option value="">Pilih Status</option>
-                                    <option value="terpakai">Terpakai</option>
-                                    <option value="tidak_terpakai">Tidak Terpakai</option>
-                                    <option value="write_off">Write Off</option>
-                                    <option value="dipinjam">Dipinjam</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Kondisi Aset*</label>
-                                <select class="form-control" name="kondisi_aset" required>
-                                    <option value="">Pilih Kondisi</option>
-                                    <option value="baik">Baik</option>
-                                    <option value="cukup">Cukup</option>
-                                    <option value="rusak_ringan">Rusak Ringan</option>
-                                    <option value="rusak_sedang">Rusak Sedang</option>
-                                    <option value="rusak_berat">Rusak Berat</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <label class="form-label fw-semibold">Keterangan</label>
-                                <textarea name="keterangan" class="form-control" rows="3"></textarea>
-                            </div>
-
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn rounded-pill btn-light border border-dark"
-                            data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn rounded-pill btn-warning">Simpan Data</button>
-                    </div>
-                </form>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </div>
+                    </form>
+
+                </div>
             </div>
         </div>
-    </div>
+    <?php endforeach; ?>
 
 </div>
+
+
+
+
 <!-- Auto Fill Modal Tambah Data -->
 <script>
     document.getElementById("master_aset_id").addEventListener("change", function() {
@@ -607,6 +800,27 @@ $error = $_GET['error'] ?? '';
 </script>
 
 <script>
+    document.querySelectorAll('.form-confirm-edit').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Konfirmasi Perubahan Data",
+                text: "Apakah anda yakin akan mengubah data ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e6b53c",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Batal",
+                confirmButtonText: "Ya, simpan perubahan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+
     document.querySelectorAll('.form-confirm-tambah').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();

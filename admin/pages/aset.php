@@ -368,7 +368,7 @@ $error = $_GET['error'] ?? '';
                         <div class="row">
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Aset*</label>
+                                <label class="form-label">Aset*</label>
                                 <select class="form-control" name="master_aset_id" id="master_aset_id" required>
                                     <option value="">Pilih Aset</option>
                                     <!-- Sort the master_aset array by ma_nama -->
@@ -387,61 +387,61 @@ $error = $_GET['error'] ?? '';
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Merk</label>
+                                <label class="form-label">Merk</label>
                                 <input type="text" class="form-control" id="merk" disabled>
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label class="form-label fw-semibold">Spesifikasi</label>
+                                <label class="form-label">Spesifikasi</label>
                                 <div id="spesifikasi_view" class="form-control"
                                     style="min-height:100px; background-color: #e8ecee"></div>
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Kelompok Aset</label>
+                                <label class="form-label">Kelompok Aset</label>
                                 <input class="form-control" id="kelompok_aset" disabled>
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Kategori Aset</label>
+                                <label class="form-label">Kategori Aset</label>
                                 <input class="form-control" id="kategori_aset" disabled>
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">File Dokumen</label>
+                                <label class="form-label">File Dokumen</label>
                                 <input type="file" class="form-control" name="file_dokumen">
                                 <span class="form-text fst-italic">Format file: PDF, PNG, JPG, JPEG (Max 20 MB)</span>
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Tanggal Perolehan*</label>
+                                <label class="form-label">Tanggal Perolehan*</label>
                                 <input type="date" class="form-control" name="tanggal_perolehan" required>
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Harga Perolehan*</label>
+                                <label class="form-label">Harga Perolehan*</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-white border border-end-0">Rp.
                                     </span>
                                     <input type="text" class="form-control border border-start-0" id="harga_perolehan"
-                                        name="harga_perolehan" required>
+                                        name="harga_perolehan" inputmode="numeric" required>
                                 </div>
 
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Estimasi Harga (<?= date('Y') ?>)*</label>
+                                <label class="form-label">Estimasi Harga (<?= date('Y') ?>)*</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-white border border-end-0">Rp.
                                     </span>
                                     <input type="text" class="form-control border border-start-0" id="estimasi_harga"
-                                        name="estimasi_harga" required>
+                                        name="estimasi_harga" inputmode="numeric" required>
                                 </div>
 
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Lokasi (Ruangan)</label>
+                                <label class="form-label">Lokasi (Ruangan)</label>
                                 <select class="form-control" name="ruangan_id">
                                     <option value="">Pilih Ruangan</option>
                                     <?php foreach ($ruangan as $r): ?>
@@ -451,12 +451,12 @@ $error = $_GET['error'] ?? '';
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Lokasi</label>
+                                <label class="form-label">Lokasi</label>
                                 <input type="text" class="form-control" name="lokasi">
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Status Aset*</label>
+                                <label class="form-label">Status Aset*</label>
                                 <select class="form-control" name="status_aset" required>
                                     <option value="">Pilih Status</option>
                                     <option value="terpakai">Terpakai</option>
@@ -466,7 +466,7 @@ $error = $_GET['error'] ?? '';
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label class="form-label fw-semibold">Kondisi Aset*</label>
+                                <label class="form-label">Kondisi Aset*</label>
                                 <select class="form-control" name="kondisi_aset" required>
                                     <option value="">Pilih Kondisi</option>
                                     <option value="baik">Baik</option>
@@ -478,7 +478,7 @@ $error = $_GET['error'] ?? '';
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label class="form-label fw-semibold">Keterangan</label>
+                                <label class="form-label">Keterangan</label>
                                 <textarea name="keterangan" class="form-control" rows="3"></textarea>
                             </div>
 

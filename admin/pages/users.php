@@ -195,16 +195,16 @@ $error = $_GET['error'] ?? '';
                 <form action="../actions/users/tambah.php" method="post" class="form-confirm-tambah">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Nama*</label>
+                            <label class="form-label">Nama*</label>
                             <input type="text" class="form-control" name="nama" placeholder="Masukan nama lengkap"
                                 required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Email*</label>
+                            <label class="form-label">Email*</label>
                             <input type="email" class="form-control" name="email" placeholder="Masukan email" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Password*</label>
+                            <label class="form-label">Password*</label>
                             <input type="password" class="form-control" name="password" placeholder="Masukan password"
                                 id="password" required>
                         </div>
@@ -238,17 +238,17 @@ $error = $_GET['error'] ?? '';
                             <input type="hidden" name="id" value="<?= $user['id'] ?>">
 
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Nama*</label>
+                                <label class="form-label">Nama*</label>
                                 <input type="text" class="form-control" name="nama"
                                     value="<?= htmlspecialchars($user['u_nama']) ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Email*</label>
+                                <label class="form-label">Email*</label>
                                 <input type="email" class="form-control" name="email"
                                     value="<?= htmlspecialchars($user['u_email']) ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Password Baru (opsional)</label>
+                                <label class="form-label">Password Baru (opsional)</label>
                                 <input type="password" class="form-control" name="password"
                                     id="passwordEdit-<?= $user['id'] ?>" placeholder="Kosongkan jika tidak diganti">
                             </div>
@@ -259,7 +259,7 @@ $error = $_GET['error'] ?? '';
                                     password</label>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Status*</label>
+                                <label class="form-label">Status*</label>
                                 <select class="form-select" name="status">
                                     <option value="1" <?= (int) $user['u_is_active'] === 1 ? 'selected' : '' ?>>
                                         Aktif

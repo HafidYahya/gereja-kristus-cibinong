@@ -311,12 +311,12 @@ $error = $_GET['error'] ?? '';
                     id="form-tambah-aset">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Nama Aset*</label>
+                            <label class="form-label">Nama Aset*</label>
                             <input type="text" class="form-control" name="nama" placeholder="Masukan nama aset"
                                 required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Kelompok Aset*</label>
+                            <label class="form-label">Kelompok Aset*</label>
                             <select class="form-control" name="master_kelompok_id" required>
                                 <option value="">Pilih Kelompok</option>
                                 <?php foreach ($master_kelompok as $kelompok): ?>
@@ -325,7 +325,7 @@ $error = $_GET['error'] ?? '';
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Kategori Aset*</label>
+                            <label class="form-label">Kategori Aset*</label>
                             <select class="form-control" name="master_kategori_id" required>
                                 <option value="">Pilih Kategori</option>
                                 <?php foreach ($master_kategori as $kategori): ?>
@@ -335,12 +335,12 @@ $error = $_GET['error'] ?? '';
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Merk*</label>
+                            <label class="form-label">Merk*</label>
                             <input type="text" class="form-control" name="merk" placeholder="Masukan merk aset"
                                 required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Spesifikasi</label>
+                            <label class="form-label">Spesifikasi</label>
                             <!-- Container editor -->
                             <div id="editor"></div>
                             <input type="hidden" name="spesifikasi" id="spesifikasi">

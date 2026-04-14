@@ -195,7 +195,7 @@ $error = $_GET['error'] ?? '';
                 <form action="../actions/master_kategori_aset/tambah.php" method="post" class="form-confirm-tambah">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Nama Master Kategori Aset*</label>
+                            <label class="form-label">Nama Master Kategori Aset*</label>
                             <input type="text" class="form-control" name="nama"
                                 placeholder="Masukan nama master kategori aset" required>
                         </div>

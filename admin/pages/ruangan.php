@@ -200,17 +200,17 @@ $error = $_GET['error'] ?? '';
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Nama Ruangan*</label>
+                            <label class="form-label">Nama Ruangan*</label>
                             <input type="text" class="form-control" name="nama_ruangan"
                                 placeholder="Masukan nama ruangan" required>
                         </div>
                         <div class="mb-3">
-                            <label for="keterangan" class="form-label fw-semibold">Keterangan</label>
+                            <label for="keterangan" class="form-label">Keterangan</label>
                             <textarea class="form-control" id="keterangan" name="keterangan" rows="3"
                                 placeholder="Tambahkan keterangan (Opsional)"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Upload Gambar (Landscape 16:9, Max 20MB)</label>
+                            <label class="form-label">Upload Gambar (Landscape 16:9, Max 20MB)</label>
 
                             <div class="border border-warning rounded bg-light p-2" id="ruanganUploadZone">
                                 <div class="d-flex align-items-center gap-2">
@@ -291,18 +291,18 @@ $error = $_GET['error'] ?? '';
                             <input type="hidden" name="id" value="<?= (int) $data['id'] ?>">
                             <input type="hidden" name="gambar_lama" value="<?= htmlspecialchars($data['r_foto'] ?? '') ?>">
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Nama Ruangan*</label>
+                                <label class="form-label">Nama Ruangan*</label>
                                 <input type="text" class="form-control" name="nama_ruangan"
                                     placeholder="Masukan nama ruangan" value="<?= htmlspecialchars($data['r_nama']) ?>"
                                     required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Keterangan</label>
+                                <label class="form-label">Keterangan</label>
                                 <textarea class="form-control" name="keterangan" rows="3"
                                     placeholder="Tambahkan keterangan (Opsional)"><?= htmlspecialchars($data['r_keterangan'] ?? '') ?></textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Ganti Gambar (Opsional)</label>
+                                <label class="form-label">Ganti Gambar (Opsional)</label>
                                 <div class="border border-warning rounded bg-light p-2 ruangan-edit-upload-zone">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="rounded-circle bg-white border d-flex align-items-center justify-content-center"
