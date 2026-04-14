@@ -1,6 +1,5 @@
 <?php
 
-$filterStatus = $_GET['filter'] ?? '';
 $filterKelompok = $_GET['filter_kelompok'] ?? '';
 $filterKategori = $_GET['filter_kategori'] ?? '';
 $search = trim($_GET['search'] ?? '');
@@ -17,13 +16,6 @@ $offset = ($p - 1) * $limit;
 $where = [];
 $types = '';
 $params = [];
-
-if ($filterStatus !== '') {
-    $where[] = "ma.ma_is_active = ?";
-    $types .= "i";
-    $params[] = (int)$filterStatus;
-}
-
 
 if ($filterKelompok !== '') {
     $where[] = "ma.ma_master_kelompok_id = ?";
@@ -174,15 +166,6 @@ $error = $_GET['error'] ?? '';
     <form method="GET">
         <div class="row mb-3">
             <div class="col-sm-12 col-lg-4">
-                <label class="form-label" for=""><i class="fas fa-filter"></i> Status</label>
-                <input type="hidden" name="page" value="aset">
-                <select name="filter" class="form-select border border-warning">
-                    <option value="">Semua Status</option>
-                    <option value="1" <?= $filterStatus === '1' ? 'selected' : '' ?>>Aktif</option>
-                    <option value="0" <?= $filterStatus === '0' ? 'selected' : '' ?>>Tidak Aktif</option>
-                </select>
-            </div>
-            <div class="col-sm-12 col-lg-4">
                 <label class="form-label" for=""><i class="fas fa-filter"></i> Kelompok Aset</label>
                 <select name="filter_kelompok" class="form-select border border-warning">
                     <option value="">Semua Kelompok</option>
@@ -269,23 +252,36 @@ $error = $_GET['error'] ?? '';
                                     </button>
                                 </td>
 
-                                <td><?= date('d/m/Y', strtotime($data['a_tgl_perolehan'] ?? '-')) ?></td>
+                                <td><?= date('d/m/Y', strtotime($data['a_tgl_perolehan'] ?? '')) ?></td>
 
                                 <td>Rp. <?= number_format($data['a_harga_perolehan'] ?? 0, 0, ',', '.') ?></td>
 
                                 <td>Rp. <?= number_format($data['a_estimasi_harga'] ?? 0, 0, ',', '.') ?></td>
 
-                                <td><?= htmlspecialchars($data['a_lokasi'] ?? '-') ?></td>
+                                <td><?= htmlspecialchars($data['a_lokasi'] ?? '') ?></td>
 
-                                <td><?= htmlspecialchars($data['r_nama'] ?? '-') ?></td>
+                                <td><?= htmlspecialchars($data['r_nama'] ?? '') ?></td>
 
-                                <td><?= ucwords(htmlspecialchars($data['a_status_aset'] ?? '-')) ?></td>
+                                <td><?= ucwords(htmlspecialchars($data['a_status_aset'] ?? '')) ?></td>
 
-                                <td><?= ucwords(htmlspecialchars($data['a_kondisi_aset'] ?? '-')) ?></td>
+                                <td><?= ucwords(htmlspecialchars($data['a_kondisi_aset'] ?? '')) ?></td>
 
                                 <td>
-
-
+                                    <button type="button" class="btn btn-sm shadow-md " data-bs-toggle="modal"
+                                        data-bs-target="#modal-detail-aset-<?= $data['a_id'] ?>">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm shadow-md" data-bs-toggle="modal"
+                                        data-bs-target="#modal-edit-aset-<?= $data['a_id'] ?>">
+                                        <i class="far fa-pen-to-square"></i>
+                                    </button>
+                                    <form action="../actions/aset/delete.php" method="post"
+                                        class="d-inline form-confirm-delete">
+                                        <input type="hidden" name="id" value="<?= (int) $data['a_id'] ?>">
+                                        <button type="submit" class="btn btn-sm shadow-md text-danger">
+                                            <i class="far fa-trash-can"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -302,7 +298,7 @@ $error = $_GET['error'] ?? '';
             <!-- Previous -->
             <li class="page-item <?= ($p <= 1) ? 'disabled' : '' ?>">
                 <a class="page-link"
-                    href="index.php?page=aset&p=<?= $p - 1 ?>&filter=<?= urlencode($filterStatus) ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
+                    href="index.php?page=aset&p=<?= $p - 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
                     Previous
                 </a>
             </li>
@@ -315,7 +311,7 @@ $error = $_GET['error'] ?? '';
             <?php for ($i = $start; $i <= $end; $i++): ?>
                 <li class="page-item <?= ($i == $p) ? 'active' : '' ?>">
                     <a class="page-link"
-                        href="index.php?page=aset&p=<?= $i ?>&filter=<?= urlencode($filterStatus) ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
+                        href="index.php?page=aset&p=<?= $i ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
                         <?= $i ?>
                     </a>
                 </li>
@@ -324,7 +320,7 @@ $error = $_GET['error'] ?? '';
             <!-- Next -->
             <li class="page-item <?= ($p >= $totalPages) ? 'disabled' : '' ?>">
                 <a class="page-link"
-                    href="index.php?page=aset&p=<?= $p + 1 ?>&filter=<?= urlencode($filterStatus) ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
+                    href="index.php?page=aset&p=<?= $p + 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
                     Next
                 </a>
             </li>
@@ -459,14 +455,24 @@ $error = $_GET['error'] ?? '';
 
                             <div class="col-12 col-lg-6 mb-3">
                                 <label class="form-label fw-semibold">Harga Perolehan*</label>
-                                <input type="text" class="form-control" id="harga_perolehan" name="harga_perolehan"
-                                    required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border border-end-0" id="harga_perolehan">Rp.
+                                    </span>
+                                    <input type="text" class="form-control border border-start-0" id="harga_perolehan"
+                                        name="harga_perolehan" required>
+                                </div>
+
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
                                 <label class="form-label fw-semibold">Estimasi Harga (<?= date('Y') ?>)*</label>
-                                <input type="text" class="form-control" id="estimasi_harga" name="estimasi_harga"
-                                    required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border border-end-0" id="estimasi_harga">Rp.
+                                    </span>
+                                    <input type="text" class="form-control border border-start-0" id="estimasi_harga"
+                                        name="estimasi_harga" required>
+                                </div>
+
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
@@ -546,28 +552,6 @@ $error = $_GET['error'] ?? '';
 </script>
 
 <script>
-    // ================== CONFIRM SUBMIT ==================
-    document.querySelectorAll('.form-confirm-ubah-status').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: "Konfirmasi",
-                text: "Apakah anda yakin ingin mengubah status?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#e6b53c",
-                cancelButtonColor: "#d33",
-                cancelButtonText: "Batal",
-                confirmButtonText: "Ya"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        });
-    });
-
     document.querySelectorAll('.form-confirm-tambah').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();

@@ -191,7 +191,7 @@ $error = $_GET['error'] ?? '';
         </ul>
     </nav>
 
-    <!-- MODAL EDTI -->
+    <!-- MODAL EDIT -->
     <?php foreach ($jemaat as $data) : ?>
         <div class="modal fade" id="modal-edit-jemaat-<?= $data['id'] ?>" tabindex="-1" aria-hidden="true"
             aria-labelledby="modal-edit-jemaat-label-<?= $data['id'] ?>">
