@@ -2,9 +2,13 @@
 
 $filterKelompok = $_GET['filter_kelompok'] ?? '';
 $filterKategori = $_GET['filter_kategori'] ?? '';
+$maId = $_GET['ma_id'] ?? '';
+$filterStatusAset = $_GET['filter_status_aset'] ?? '';
+$filterKondisiAset = $_GET['filter_kondisi_aset'] ?? '';
+$filterRuangan = $_GET['filter_ruangan'] ?? '';
 $search = trim($_GET['search'] ?? '');
 // routing
-$currentPage = $_GET['page'] ?? 'aset';
+$currentPage = $_GET['page'] ?? 'detail_aset';
 // pagination
 $p = isset($_GET['p']) ? (int)$_GET['p'] : 1;
 $p = max(1, $p);
@@ -16,6 +20,30 @@ $offset = ($p - 1) * $limit;
 $where = [];
 $types = '';
 $params = [];
+
+if ($filterStatusAset !== '') {
+    $where[] = "a.a_status_aset = ?";
+    $types .= "s";
+    $params[] = $filterStatusAset;
+}
+
+if ($filterKondisiAset !== '') {
+    $where[] = "a.a_kondisi_aset = ?";
+    $types .= "s";
+    $params[] = $filterKondisiAset;
+}
+
+if ($filterRuangan !== '') {
+    $where[] = "a.a_lokasi_ruangan_id = ?";
+    $types .= "i";
+    $params[] = (int)$filterRuangan;
+}
+
+if ($maId !== '') {
+    $where[] = "ma.id = ?";
+    $types .= "i";
+    $params[] = (int)$maId;
+}
 
 if ($filterKelompok !== '') {
     $where[] = "ma.ma_master_kelompok_id = ?";
@@ -44,6 +72,17 @@ if (!empty($where)) {
 
 $sql = "
 SELECT 
+    a.id AS a_id,
+    a.a_master_aset_id,
+    a.a_file_dokumen,
+    a.a_tgl_perolehan,
+    a.a_harga_perolehan,
+    a.a_estimasi_harga,
+    a.a_lokasi_ruangan_id,
+    a.a_lokasi,
+    a.a_status_aset,
+    a.a_kondisi_aset,
+    a.a_keterangan,
     ma.id AS ma_id,
     ma.ma_nama,
     ma.ma_merk,
@@ -53,7 +92,7 @@ SELECT
     ma.ma_is_active,
     mkel.kel_nama AS nama_kelompok,
     mkat.kat_nama AS nama_kategori,
-    COUNT(a.id) AS qty
+    r.r_nama AS r_nama
 FROM aset a
 LEFT JOIN master_aset ma 
     ON a.a_master_aset_id = ma.id
@@ -64,10 +103,7 @@ LEFT JOIN master_kategori_aset mkat
 LEFT JOIN ruangan r 
     ON a.a_lokasi_ruangan_id = r.id
 $whereSql
-GROUP BY 
-    ma.id, ma.ma_nama, ma.ma_merk, ma.ma_master_kelompok_id, 
-    ma.ma_master_kategori_id, mkel.kel_nama, mkat.kat_nama
-ORDER BY ma.ma_nama ASC
+ORDER BY a.a_tgl_perolehan DESC, ma.id DESC
 LIMIT ? OFFSET ?
 ";
 $stmt = $conn->prepare($sql);
@@ -78,7 +114,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 $sqlTotal = "
-SELECT COUNT(DISTINCT ma.id) as total
+SELECT COUNT(*) as total
 FROM aset a
 LEFT JOIN master_aset ma 
     ON a.a_master_aset_id = ma.id
@@ -142,42 +178,61 @@ $error = $_GET['error'] ?? '';
 ?>
 
 <div class="p-4">
+    <div class="col-12 col-sm mb-3">
+        <a href="index.php?page=aset" class="btn btn-white btn-sm border border-primary rounded shadow-sm"><i
+                class="fas fa-arrow-left"></i> Kembali</a>
+    </div>
     <div class="container border border-warning border-top-0 border-bottom-0 bg-white p-3 rounded shadow mb-4">
+
         <div class="page-header row g-2 align-items-center">
             <div class="col-12 col-sm">
-                <h1 class="page-title mb-0">Aset</h1>
-            </div>
-            <div class="col-12 col-sm-auto">
-                <button type="button"
-                    class="btn btn-white border border-warning rounded-pill shadow-sm w-100 d-flex align-items-center justify-content-center"
-                    data-bs-toggle="modal" data-bs-target="#modal-tambah-aset"><i class="fas fa-plus me-2"></i>Tambah
-                    Data</button>
+                <h1 class="page-title mb-0">Detail Aset</h1>
             </div>
         </div>
     </div>
     <form method="GET">
         <div class="row mb-3">
 
+            <input type="hidden" name="page" value="detail_aset">
+            <input type="hidden" name="filter_kelompok" value="<?= htmlspecialchars($filterKelompok) ?>">
+            <input type="hidden" name="filter_kategori" value="<?= htmlspecialchars($filterKategori) ?>">
+            <input type="hidden" name="ma_id" value="<?= htmlspecialchars($maId) ?>">
+
             <div class="col-sm-12 col-lg-4">
-                <input type="hidden" name="page" value="aset">
-                <label class="form-label" for=""><i class="fas fa-filter"></i> Kelompok Aset</label>
-                <select name="filter_kelompok" class="form-select border border-warning">
-                    <option value="">Semua Kelompok</option>
-                    <?php foreach ($master_kelompok as $k): ?>
-                        <option value="<?= $k['id'] ?>" <?= ($filterKelompok == $k['id']) ? 'selected' : '' ?>>
-                            <?= ucwords(htmlspecialchars($k['kel_nama'])) ?>
-                        </option>
-                    <?php endforeach; ?>
+                <label class="form-label" for=""><i class="fas fa-filter"></i> Status Aset</label>
+                <select name="filter_status_aset" class="form-select border border-warning">
+                    <option value="">Semua Status</option>
+                    <option value="terpakai" <?= $filterStatusAset === 'terpakai' ? 'selected' : '' ?>>Terpakai</option>
+                    <option value="tidak_terpakai" <?= $filterStatusAset === 'tidak_terpakai' ? 'selected' : '' ?>>Tidak
+                        Terpakai</option>
+                    <option value="write_off" <?= $filterStatusAset === 'write_off' ? 'selected' : '' ?>>Write Off
+                    </option>
+                    <option value="dipinjam" <?= $filterStatusAset === 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
                 </select>
             </div>
 
             <div class="col-sm-12 col-lg-4">
-                <label class="form-label" for=""><i class="fas fa-filter"></i> Kategori Aset</label>
-                <select name="filter_kategori" class="form-select border border-warning">
+                <label class="form-label" for=""><i class="fas fa-filter"></i> Kondisi Aset</label>
+                <select name="filter_kondisi_aset" class="form-select border border-warning">
                     <option value="">Semua Kategori</option>
-                    <?php foreach ($master_kategori as $k): ?>
-                        <option value="<?= $k['id'] ?>" <?= ($filterKategori == $k['id']) ? 'selected' : '' ?>>
-                            <?= ucwords(htmlspecialchars($k['kat_nama'])) ?>
+                    <option value="baik" <?= $filterKondisiAset === 'baik' ? 'selected' : '' ?>>Baik</option>
+                    <option value="cukup" <?= $filterKondisiAset === 'cukup' ? 'selected' : '' ?>>Cukup</option>
+                    <option value="rusak_ringan" <?= $filterKondisiAset === 'rusak_ringan' ? 'selected' : '' ?>>Rusak
+                        Ringan</option>
+                    <option value="rusak_sedang" <?= $filterKondisiAset === 'rusak_sedang' ? 'selected' : '' ?>>Rusak
+                        Sedang</option>
+                    <option value="rusak_berat" <?= $filterKondisiAset === 'rusak_berat' ? 'selected' : '' ?>>Rusak
+                        Berat</option>
+                </select>
+            </div>
+
+            <div class="col-sm-12 col-lg-4">
+                <label class="form-label" for=""><i class="fas fa-filter"></i> Lokasi (Ruangan)</label>
+                <select name="filter_ruangan" class="form-select border border-warning">
+                    <option value="">Semua Kategori</option>
+                    <?php foreach ($ruangan as $r): ?>
+                        <option value="<?= $r['id'] ?>" <?= ($filterRuangan == $r['id']) ? 'selected' : '' ?>>
+                            <?= ucwords(htmlspecialchars($r['r_nama'])) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -210,7 +265,14 @@ $error = $_GET['error'] ?? '';
                         <th>Merk</th>
                         <th>Kelompok Aset</th>
                         <th>Kategori Aset</th>
-                        <th>Qty</th>
+                        <th>File Dokumen</th>
+                        <th>Tanggal Perolehan</th>
+                        <th>Harga Perolehan</th>
+                        <th>Estimasi Harga (<?= date('Y') ?>)</th>
+                        <th>Lokasi</th>
+                        <th>Lokasi (Ruangan)</th>
+                        <th>Status Aset</th>
+                        <th>Kondisi Aset</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -235,14 +297,46 @@ $error = $_GET['error'] ?? '';
 
                                 <td><?= ucwords(htmlspecialchars($data['nama_kategori'] ?? '-')) ?></td>
 
-                                <td><?= $data['qty'] ?? 0 ?></td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning text-white border" data-bs-toggle="modal"
+                                        data-bs-target="#modalFile<?= $data['a_id'] ?>">
+                                        Lihat File
+                                    </button>
+                                </td>
+
+                                <td><?= date('d/m/Y', strtotime($data['a_tgl_perolehan'] ?? '')) ?></td>
+
+                                <td>Rp. <?= number_format($data['a_harga_perolehan'] ?? 0, 0, ',', '.') ?></td>
+
+                                <td>Rp. <?= number_format($data['a_estimasi_harga'] ?? 0, 0, ',', '.') ?></td>
+
+                                <td><?= ucwords(htmlspecialchars($data['a_lokasi'] ?? '')) ?></td>
+
+                                <td><?= htmlspecialchars($data['r_nama'] ?? '') ?></td>
+
+                                <td><?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_status_aset'] ?? ''))) ?></td>
+
+                                <td><?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_kondisi_aset'] ?? ''))) ?></td>
 
                                 <td>
-                                    <a href="index.php?page=detail_aset&filter_kelompok=<?= urlencode($data['ma_master_kelompok_id'] ?? '') ?>&filter_kategori=<?= urlencode($data['ma_master_kategori_id'] ?? '') ?>&ma_id=<?= urlencode($data['ma_id'] ?? '') ?>"
-                                        class="btn btn-sm shadow-md fw-bold text-primary" title="Lihat Detail">
-                                        Lihat Detail
-                                    </a>
-
+                                    <button type="button" class="btn btn-sm shadow-md " data-bs-toggle="modal"
+                                        data-bs-target="#modal-detail-aset-<?= $data['a_id'] ?>">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm shadow-md" data-bs-toggle="modal"
+                                        data-bs-target="#modal-edit-aset-<?= $data['a_id'] ?>">
+                                        <i class="far fa-pen-to-square"></i>
+                                    </button>
+                                    <form action="../actions/aset/delete.php" method="post"
+                                        class="d-inline form-confirm-delete">
+                                        <input type="hidden" name="id" value="<?= (int) $data['a_id'] ?>">
+                                        <input type="hidden" name="ma_id" value="<?= $maId ?>">
+                                        <input type="hidden" name="filter_kelompok" value="<?= $filterKelompok ?>">
+                                        <input type="hidden" name="filter_kategori" value="<?= $filterKategori ?>">
+                                        <button type="submit" class="btn btn-sm shadow-md text-danger">
+                                            <i class="far fa-trash-can"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -259,7 +353,7 @@ $error = $_GET['error'] ?? '';
             <!-- Previous -->
             <li class="page-item <?= ($p <= 1) ? 'disabled' : '' ?>">
                 <a class="page-link"
-                    href="index.php?page=aset&p=<?= $p - 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
+                    href="index.php?page=detail_aset&p=<?= $p - 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
                     Previous
                 </a>
             </li>
@@ -272,7 +366,7 @@ $error = $_GET['error'] ?? '';
             <?php for ($i = $start; $i <= $end; $i++): ?>
                 <li class="page-item <?= ($i == $p) ? 'active' : '' ?>">
                     <a class="page-link"
-                        href="index.php?page=aset&p=<?= $i ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
+                        href="index.php?page=detail_aset&p=<?= $i ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
                         <?= $i ?>
                     </a>
                 </li>
@@ -281,7 +375,7 @@ $error = $_GET['error'] ?? '';
             <!-- Next -->
             <li class="page-item <?= ($p >= $totalPages) ? 'disabled' : '' ?>">
                 <a class="page-link"
-                    href="index.php?page=aset&p=<?= $p + 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&search=<?= urlencode($search) ?>">
+                    href="index.php?page=detail_aset&p=<?= $p + 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
                     Next
                 </a>
             </li>
@@ -371,13 +465,9 @@ $error = $_GET['error'] ?? '';
                                 <label class="form-label fw-semibold">Aset*</label>
                                 <select class="form-control" name="master_aset_id" id="master_aset_id" required>
                                     <option value="">Pilih Aset</option>
-                                    <!-- Sort the master_aset array by ma_nama -->
-                                    <?php usort($master_aset, function ($a, $b) {
-                                        return strcasecmp($a['ma_nama'], $b['ma_nama']);
-                                    }); ?>
                                     <?php foreach ($master_aset as $aset): ?>
                                         <option value="<?= $aset['id'] ?>" data-merk="<?= $aset['ma_merk'] ?>"
-                                            data-spesifikasi="<?= $aset['ma_spesifikasi'] ?>"
+                                            data-spesifikasi="<?= htmlspecialchars($aset['ma_spesifikasi']) ?>"
                                             data-kelompok="<?= $aset['nama_kelompok'] ?>"
                                             data-kategori="<?= $aset['nama_kategori'] ?>">
                                             <?= $aset['ma_nama'] ?>
@@ -421,7 +511,7 @@ $error = $_GET['error'] ?? '';
                             <div class="col-12 col-lg-6 mb-3">
                                 <label class="form-label fw-semibold">Harga Perolehan*</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border border-end-0">Rp.
+                                    <span class="input-group-text bg-white border border-end-0" id="harga_perolehan">Rp.
                                     </span>
                                     <input type="text" class="form-control border border-start-0" id="harga_perolehan"
                                         name="harga_perolehan" required>
@@ -432,7 +522,7 @@ $error = $_GET['error'] ?? '';
                             <div class="col-12 col-lg-6 mb-3">
                                 <label class="form-label fw-semibold">Estimasi Harga (<?= date('Y') ?>)*</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border border-end-0">Rp.
+                                    <span class="input-group-text bg-white border border-end-0" id="estimasi_harga">Rp.
                                     </span>
                                     <input type="text" class="form-control border border-start-0" id="estimasi_harga"
                                         name="estimasi_harga" required>
@@ -462,6 +552,7 @@ $error = $_GET['error'] ?? '';
                                     <option value="terpakai">Terpakai</option>
                                     <option value="tidak_terpakai">Tidak Terpakai</option>
                                     <option value="write_off">Write Off</option>
+                                    <option value="dipinjam">Dipinjam</option>
                                 </select>
                             </div>
 
@@ -529,6 +620,27 @@ $error = $_GET['error'] ?? '';
                 cancelButtonColor: "#d33",
                 cancelButtonText: "Batal",
                 confirmButtonText: "Ya"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+
+    document.querySelectorAll('.form-confirm-delete').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Hapus Data",
+                text: "Apakah anda yakin akan menghapus data ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e6b53c",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Batal",
+                confirmButtonText: "Ya, hapus"
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();

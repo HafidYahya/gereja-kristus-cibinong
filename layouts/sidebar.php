@@ -27,7 +27,7 @@
 
 
     <small class="section-title fw-semibold text-secondary">Transaksi</small>
-    <div class="sidebar-nav <?= $page === 'aset' ? 'active' : '' ?>">
+    <div class="sidebar-nav <?= $page === 'aset' || $page === 'detail_aset' ? 'active' : '' ?>">
         <a class="nav-item" href="index.php?page=aset"><i class="fas fa-boxes-stacked"></i><span>Aset</span></a>
     </div>
     <div class="sidebar-nav <?= $page === 'approval_ruangan' ? 'active' : '' ?>">

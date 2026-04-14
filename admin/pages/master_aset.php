@@ -141,7 +141,7 @@ $error = $_GET['error'] ?? '';
                     <option value="">Semua Kelompok</option>
                     <?php foreach ($master_kelompok as $k): ?>
                         <option value="<?= $k['id'] ?>" <?= ($filterKelompok == $k['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($k['kel_nama']) ?>
+                            <?= ucwords(htmlspecialchars($k['kel_nama'])) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -152,7 +152,7 @@ $error = $_GET['error'] ?? '';
                     <option value="">Semua Kategori</option>
                     <?php foreach ($master_kategori as $k): ?>
                         <option value="<?= $k['id'] ?>" <?= ($filterKategori == $k['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($k['kat_nama']) ?>
+                            <?= ucwords(htmlspecialchars($k['kat_nama'])) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -201,9 +201,9 @@ $error = $_GET['error'] ?? '';
                             <tr>
                                 <td><?= $no++ ?></td>
                                 <td><?= htmlspecialchars($data['ma_nama']) ?></td>
-                                <td><?= htmlspecialchars($data['ma_merk']) ?></td>
-                                <td><?= htmlspecialchars($data['nama_kelompok']) ?></td>
-                                <td><?= htmlspecialchars($data['nama_kategori']) ?></td>
+                                <td><?= ucwords(htmlspecialchars($data['ma_merk'])) ?></td>
+                                <td><?= ucwords(htmlspecialchars($data['nama_kelompok'])) ?></td>
+                                <td><?= ucwords(htmlspecialchars($data['nama_kategori'])) ?></td>
                                 <td>
                                     <button class="btn btn-sm btn-white border border-secondary" data-bs-toggle="modal"
                                         data-bs-target="#modalSpesifikasi<?= $data['id'] ?>">
