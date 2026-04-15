@@ -47,7 +47,7 @@ $success = $_GET['success'] ?? '';
 $error = $_GET['error'] ?? '';
 ?>
 
-<main class="container-login container mt-5 pt-5">
+<main class="container-login container mt-5 pt-5 mb-5">
     <section id="main">
         <div class="row">
             <div class="col-lg-6 col-md-12 align-self-center">
@@ -55,7 +55,7 @@ $error = $_GET['error'] ?? '';
                 <p>Silahkan login untuk mengakses fitur-fitur yang tersedia. </p>
                 <form method="POST">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email*</label>
+                        <label for="email" class="form-label text-start">Email*</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email"
                             required>
                     </div>

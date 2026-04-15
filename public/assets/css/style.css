@@ -301,6 +301,11 @@
   opacity: 0.9;
 }
 
+.slot-btn.active {
+  background-color: #0d6efd;
+  color: white;
+}
+
 .footer-gkc {
   border-top: 3px solid var(--primary-color);
   padding: 2.5rem 0 1.5rem;
@@ -420,8 +425,9 @@
     gap: 0.75rem 1.25rem;
   }
 
-  /* Center section main di mobile */
-  #main .row {
+  /* Center section main di mobile (khusus halaman ruangan) */
+  .container-ruangan #main .row,
+  .container-home #main .row {
     justify-content: center;
     text-align: center;
   }
