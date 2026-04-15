@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verifikasi password
         if (password_verify($password, $jemaat['j_password'])) {
             // Simpan informasi pengguna dalam session
-            $_SESSION['jemaat_id'] = $jemaat['j_id'];
+            $_SESSION['jemaat_id'] = $jemaat['id'];
             $_SESSION['jemaat_name'] = $jemaat['j_nama'];
             $_SESSION['jemaat_email'] = $jemaat['j_email'];
             $_SESSION['jemaat_no_hp'] = $jemaat['j_no_hp'];
@@ -70,7 +70,9 @@ $error = $_GET['error'] ?? '';
                             Tampilkan Password
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-login w-100 mt-3 mb-4">Login</button>
+                    <button type="submit" class="btn btn-login w-100 mt-3 mb-1">Login</button>
+                    <a href="register" class="text-primary mb-4" style="text-decoration: none;">Belum punya akun? Daftar
+                        sekarang</a>
                 </form>
             </div>
             <div class="d-none d-lg-block col-lg-6">

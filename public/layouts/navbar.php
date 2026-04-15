@@ -1,5 +1,4 @@
 <?php
-session_start();
 $page = $_GET['url'] ?? 'home';
 ?>
 
@@ -50,7 +49,7 @@ $page = $_GET['url'] ?? 'home';
                     <span class="navbar-toggler-icon"></span>
                 <?php else: ?>
                     <!-- Jika sudah Login -->
-                    <img src="public/assets/images/<?= $_SESSION['jemaat_foto'] ?? 'profile-default.jpg' ?>" alt="Profile"
+                    <img src="assets/uploads/jemaat/<?= $_SESSION['jemaat_foto'] ?? 'profile-default.jpg' ?>" alt="Profile"
                         class="profile-jemaat d-inline-block align-text-center">
                 <?php endif; ?>
             </button>
@@ -60,10 +59,13 @@ $page = $_GET['url'] ?? 'home';
                     <li class="nav-item">
                         <a class="nav-link text-center <?= $page === 'home' ? 'active' : '' ?>" href="home">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-center <?= $page === 'aset-gereja' ? 'active' : '' ?>"
-                            href="aset-gereja">Aset Gereja</a>
-                    </li>
+                    <!-- Hanya Muncul Untuk Jemaat Yang Sudah Login -->
+                    <?php if (isset($_SESSION['jemaat_id']) && !empty($_SESSION['jemaat_id'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link text-center <?= $page === 'aset-gereja' ? 'active' : '' ?>"
+                                href="aset-gereja">Aset Gereja</a>
+                        </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link text-center <?= $page === 'ruangan' ? 'active' : '' ?>"
                             href="ruangan">Ruangan</a>
@@ -80,8 +82,8 @@ $page = $_GET['url'] ?? 'home';
                 <?php else: ?>
                     <!-- Jika sudah Login -->
                     <div class="d-flex gap-2 justify-content-center">
-                        <a class="btn text-white" href="#"><?= $_SESSION['jemaat_name'] ?? 'Profil' ?><img
-                                src="public/assets/images/<?= $_SESSION['jemaat_foto'] ?? 'profile-default.jpg' ?>"
+                        <a class="btn text-white" href="#"><i class="fas fa-user text-primary me-1"></i> Profile<img
+                                src="assets/uploads/jemaat/<?= $_SESSION['jemaat_foto'] ?? 'profile-default.jpg' ?>"
                                 alt="Profile" class="d-none profile-jemaat d-md-inline-block align-text-center ms-3"></a>
                     </div>
                 <?php endif; ?>

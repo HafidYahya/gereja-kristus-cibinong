@@ -43,6 +43,8 @@
 }
 .navbar .profile-jemaat {
   width: 40px;
+  height: 40px;
+  object-fit: cover;
   border: none;
   border-radius: 50%;
   box-shadow: 0 2px 5px 1px rgba(255, 255, 255, 0.4);
@@ -53,16 +55,84 @@
 .container-register section h2,
 .container-register section h1,
 .container-login section h1,
-.container-login section h2 {
+.container-login section h2,
+.container-ruangan section h1,
+.container-ruangan section h2 {
   font-family: var(--font-main) !important;
   color: var(--primary-color) !important;
 }
 .container-home p,
 .container-register p,
-.container-login p {
+.container-login p,
+.container-ruangan p,
+.container-detail-ruangan p {
   font-family: var(--font-desc) !important;
   color: #777;
 }
+
+#carouselIndicators .carousel-item {
+  position: relative;
+}
+
+#carouselIndicators {
+  position: relative;
+}
+
+#main {
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.carousel-fixed-content {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  z-index: 3;
+  max-width: 520px;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+
+.carousel-fixed-content h1,
+.carousel-fixed-content p {
+  color: #fff !important;
+}
+
+.carousel-fixed-content p {
+  max-width: 100%;
+}
+
+#carouselIndicators .carousel-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 1;
+}
+
+#carouselIndicators .carousel-item img {
+  height: 480px;
+  object-fit: cover;
+}
+
+#carouselIndicators .carousel-indicators,
+#carouselIndicators .carousel-control-prev,
+#carouselIndicators .carousel-control-next {
+  z-index: 2;
+}
+.card-ruangan:hover {
+  transform: scale(1.02);
+  transition: 0.2s;
+}
+
+.card-ruangan {
+  cursor: pointer;
+}
+
 .section-ruangan .card {
   background-color: var(--primary-color) !important;
   border-radius: 10px 30px 10px 30px !important;
@@ -83,6 +153,92 @@
 .section-ruangan .btn-selengkapnya:hover {
   background-color: var(--primary-color) !important;
   color: var(--secondary-color) !important;
+}
+.section-lokasi .btn-selengkapnya {
+  font-family: var(--font-main) !important;
+  font-weight: 500;
+  border: 2px solid var(--primary-color) !important;
+}
+.section-lokasi .btn-selengkapnya:hover {
+  background-color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
+}
+
+.section-lokasi .lokasi-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.section-lokasi .lokasi-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background-color: rgba(242, 168, 25, 0.08);
+  border: 1px solid rgba(242, 168, 25, 0.25);
+}
+
+.section-lokasi .lokasi-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 6px 12px rgba(242, 168, 25, 0.25);
+}
+
+.section-lokasi .lokasi-label {
+  font-family: var(--font-main);
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.1rem;
+}
+
+.section-lokasi .lokasi-text {
+  color: #555;
+  font-family: var(--font-desc);
+}
+
+.container-detail-ruangan h1,
+.container-detail-ruangan h2 {
+  font-family: var(--font-main) !important;
+  color: var(--primary-color) !important;
+}
+
+.detail-ruangan__image-wrap {
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #f8f8f8;
+}
+
+.detail-ruangan__image {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+.detail-ruangan__content {
+  background-color: #fff;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  padding: 1.5rem;
+}
+
+.btn-pinjam-ruangan {
+  font-family: var(--font-main) !important;
+  font-weight: 500;
+  background-color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.btn-pinjam-ruangan:hover {
+  opacity: 0.9;
 }
 
 .container-register {
@@ -237,9 +393,42 @@
 }
 
 @media (max-width: 767.98px) {
+  #carouselIndicators .carousel-item img {
+    height: 280px;
+  }
+
+  .detail-ruangan__image {
+    height: 260px;
+  }
+
+  .carousel-fixed-content {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 2rem);
+    max-width: 95%;
+    padding: 0.875rem 1rem;
+  }
+
+  .carousel-fixed-content h1 {
+    font-size: 1.35rem;
+  }
+
   .footer-gkc__links {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.75rem 1.25rem;
+  }
+
+  /* Center section main di mobile */
+  #main .row {
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Padding kanan kiri untuk section lokasi di mobile */
+  #lokasi {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }

@@ -1,4 +1,8 @@
 <?php
+if (isset($_SESSION['jemaat_id'])) {
+    header("Location: /gerejakristuscibinong/");
+    exit();
+}
 include __DIR__ . "/../../config/koneksi.php";
 $success = $_GET['success'] ?? '';
 $error = $_GET['error'] ?? '';
@@ -18,7 +22,7 @@ $error = $_GET['error'] ?? '';
                 <div class="col-lg-4 col-md-5">
                     <div class="register-profile">
                         <img id="foto_preview" class="register-profile__preview"
-                            src="public/assets/images/profile-default.jpg" alt="Preview Foto Profile">
+                            src="assets/uploads/jemaat/profile-default.jpg" alt="Preview Foto Profile">
                         <label class="btn btn-outline-primary w-100 register-profile__button">
                             Pilih Foto
                             <input id="foto_profile" name="foto_profile" type="file" accept="image/*"

@@ -8,9 +8,9 @@ $success = $_GET['success'] ?? '';
 $error = $_GET['error'] ?? '';
 ?>
 
-<main class="container-home container mt-5 pt-5">
+<main class="container-home container mt-5 pt-5 mb-5">
     <section id="main">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-lg-6 col-md-12 align-self-center">
                 <h1 class="display-4">Selamat Datang</h1>
                 <p>Ini adalah halaman utama situs web Gereja Kristus Cibinong. Di sini Anda dapat menemukan
@@ -22,7 +22,7 @@ $error = $_GET['error'] ?? '';
         </div>
     </section>
 
-    <section id="ruangan" class="section-ruangan mt-5">
+    <section id="ruangan" class="section-ruangan mt-5 mb-5">
         <div class="row mb-3">
             <div class="col-lg-12 col-md-12 align-self-center">
                 <h2 class="text-center">RUANGAN</h2>
@@ -38,7 +38,8 @@ $error = $_GET['error'] ?? '';
             <?php else: ?>
                 <?php foreach ($dataRuangan as $ruangan): ?>
                     <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
-                        <div class="card shadow-md mx-auto">
+                        <div class="card card-ruangan shadow-md mx-auto"
+                            onclick="window.location='detail-ruangan?r=<?= $ruangan['id'] ?>'">
                             <img src="assets/uploads/ruangan/<?= $ruangan['r_foto'] ?>" class="card-img-top shadow"
                                 alt="<?= $ruangan['r_nama'] ?>">
                             <div class="card-body">
@@ -52,6 +53,62 @@ $error = $_GET['error'] ?? '';
         <div class="mb-3 text-center">
             <a href="ruangan" class="btn btn-selengkapnya rounded-pill">Selengkapnya <i
                     class="fas fa-angles-right"></i></a>
+        </div>
+    </section>
+
+    <!-- SECTION LOKASI -->
+    <section id="lokasi" class="section-lokasi mt-5 mb-5">
+        <div class="row align-items-center">
+
+            <!-- MAP -->
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="ratio ratio-4x3 shadow rounded">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.426963607862!2d106.85099027355814!3d-6.467472863233527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c1d0a9671243%3A0x5ef670fe0fcbba9c!2sGereja%20Kristus%20Cibinong!5e0!3m2!1sen!2sid!4v1776173761702!5m2!1sen!2sid"
+                        style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="col-lg-6 col-md-12">
+                <h2 class="mb-3">Lokasi Kami</h2>
+                <p>
+                    Gereja Kristus Cibinong berlokasi strategis dan mudah diakses oleh jemaat maupun pengunjung.
+                    Anda dapat menggunakan peta di samping untuk menemukan lokasi kami dengan lebih mudah.
+                </p>
+
+                <ul class="lokasi-list mt-3">
+                    <li class="lokasi-item">
+                        <span class="lokasi-icon"><i class="fas fa-map-marker-alt"></i></span>
+                        <div>
+                            <div class="lokasi-label">Lokasi</div>
+                            <div class="lokasi-text">Jl. Raya Cibinong, Cibinong, Bogor, Jawa Barat</div>
+                        </div>
+                    </li>
+                    <li class="lokasi-item">
+                        <span class="lokasi-icon"><i class="fas fa-clock"></i></span>
+                        <div>
+                            <div class="lokasi-label">Jam Operasional</div>
+                            <div class="lokasi-text">Setiap hari menyesuaikan waktu ibadah</div>
+                        </div>
+                    </li>
+                    <li class="lokasi-item">
+                        <span class="lokasi-icon"><i class="fas fa-phone"></i></span>
+                        <div>
+                            <div class="lokasi-label">Kontak</div>
+                            <div class="lokasi-text">-</div>
+                        </div>
+                    </li>
+                    <a href="https://www.google.com/maps?q=Gereja+Kristus+Cibinong" target="_blank"
+                        class="btn mt-3 rounded-pill btn-selengkapnya">
+                        Lihat di Google Maps
+                    </a>
+                </ul>
+
+
+            </div>
+
         </div>
     </section>
 

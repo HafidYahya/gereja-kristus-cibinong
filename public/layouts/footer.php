@@ -13,7 +13,10 @@
                 <div class="footer-gkc__links">
                     <a href="home" class="footer-gkc__link">Home</a>
                     <a href="ruangan" class="footer-gkc__link">Ruangan</a>
-                    <a href="aset-gereja" class="footer-gkc__link">Aset Gereja</a>
+                    <!-- Hanya muncul ketika sudah login -->
+                    <?php if (isset($_SESSION['jemaat_id']) && !empty($_SESSION['jemaat_id'])): ?>
+                        <a href="aset-gereja" class="footer-gkc__link">Aset Gereja</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
