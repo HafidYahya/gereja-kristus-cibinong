@@ -59,6 +59,10 @@ $page = $_GET['url'] ?? 'home';
                     <li class="nav-item">
                         <a class="nav-link text-center <?= $page === 'home' ? 'active' : '' ?>" href="home">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center <?= $page === 'ruangan' ? 'active' : '' ?>"
+                            href="ruangan">Ruangan</a>
+                    </li>
                     <!-- Hanya Muncul Untuk Jemaat Yang Sudah Login -->
                     <?php if (isset($_SESSION['jemaat_id']) && !empty($_SESSION['jemaat_id'])): ?>
                         <li class="nav-item">
@@ -66,10 +70,6 @@ $page = $_GET['url'] ?? 'home';
                                 href="aset-gereja">Aset Gereja</a>
                         </li>
                     <?php endif; ?>
-                    <li class="nav-item">
-                        <a class="nav-link text-center <?= $page === 'ruangan' ? 'active' : '' ?>"
-                            href="ruangan">Ruangan</a>
-                    </li>
                 </ul>
 
                 <!-- BUTTON (kanan) -->

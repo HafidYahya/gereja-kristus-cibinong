@@ -191,6 +191,79 @@ $error = $_GET['error'] ?? '';
         </ul>
     </nav>
 
+
+    <!-- MODAL DETAIL -->
+    <?php foreach ($jemaat as $data) : ?>
+        <div class="modal fade" id="modal-detail-jemaat-<?= $data['id'] ?>" tabindex="-1"
+            aria-labelledby="modal-detail-jemaat-label-<?= $data['id'] ?>" aria-hidden="true">
+
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- HEADER -->
+                    <div class="modal-header bg-warning text-white">
+                        <h5 class="modal-title" id="modal-detail-jemaat-label-<?= $data['id'] ?>">
+                            Detail Jemaat
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <!-- FOTO -->
+                            <div class="col-md-4 text-center mb-3">
+                                <img src="../assets/uploads/jemaat/<?= htmlspecialchars($data['j_foto'] ?? 'profile-default.jpg') ?>"
+                                    class="img-fluid rounded shadow" style="max-height:200px; object-fit:cover;">
+                            </div>
+
+                            <!-- DATA -->
+                            <div class="col-md-8">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <th>Nama</th>
+                                        <td>: <?= htmlspecialchars($data['j_nama']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>: <?= htmlspecialchars($data['j_email']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>No HP</th>
+                                        <td>: <?= htmlspecialchars($data['j_no_hp']) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Alamat</th>
+                                        <td>: <?= nl2br(htmlspecialchars($data['j_alamat'] ?? '-')) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>:
+                                            <span
+                                                class="badge <?= (int)$data['j_is_active'] === 1 ? 'bg-success' : 'bg-danger' ?>">
+                                                <?= (int)$data['j_is_active'] === 1 ? 'Aktif' : 'Tidak Aktif' ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
     <!-- MODAL EDIT -->
     <?php foreach ($jemaat as $data) : ?>
         <div class="modal fade" id="modal-edit-jemaat-<?= $data['id'] ?>" tabindex="-1" aria-hidden="true"
