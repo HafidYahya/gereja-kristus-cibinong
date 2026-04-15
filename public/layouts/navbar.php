@@ -82,7 +82,7 @@ $page = $_GET['url'] ?? 'home';
                 <?php else: ?>
                     <!-- Jika sudah Login -->
                     <div class="d-flex gap-2 justify-content-center">
-                        <a class="btn text-white" href="#"><i class="fas fa-user text-primary me-1"></i> Profile<img
+                        <a class="btn text-white" href="profile"><i class="fas fa-user text-primary me-1"></i> Profile<img
                                 src="assets/uploads/jemaat/<?= $_SESSION['jemaat_foto'] ?? 'profile-default.jpg' ?>"
                                 alt="Profile" class="d-none profile-jemaat d-md-inline-block align-text-center ms-3"></a>
                     </div>
