@@ -19,6 +19,7 @@ if (empty($ruangan_id) || empty($tanggal) || empty($mulai) || empty($selesai) ||
 $stmt = $conn->prepare("
     SELECT * FROM peminjaman_ruangan 
     WHERE pr_ruangan_id = ?
+    AND pr_status IN ('pending', 'approved')
     AND pr_tanggal = ?
     AND (? < pr_jam_selesai AND ? > pr_jam_mulai)
 ");

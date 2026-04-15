@@ -229,6 +229,25 @@
   padding: 1.5rem;
 }
 
+.detail-ruangan__jadwal {
+  color: #c62828;
+}
+
+.detail-ruangan__jadwal h6 {
+  font-family: var(--font-main);
+  font-weight: 700;
+  color: #c62828;
+}
+
+.detail-ruangan__jadwal p,
+.detail-ruangan__jadwal li {
+  color: #c62828 !important;
+}
+
+.detail-ruangan__jadwal ul {
+  padding-left: 1.1rem;
+}
+
 .btn-pinjam-ruangan {
   font-family: var(--font-main) !important;
   font-weight: 500;
@@ -304,6 +323,11 @@
 .slot-btn.active {
   background-color: #0d6efd;
   color: white;
+}
+.slot-btn:disabled {
+  background-color: #999999;
+  color: #d5d5d5;
+  cursor: not-allowed;
 }
 
 .footer-gkc {

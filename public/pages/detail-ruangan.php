@@ -12,7 +12,51 @@ if ($idRuangan > 0) {
     $dataRuangan = $result->fetch_assoc();
 }
 
+$dataJadwalRuangan = [];
+if ($idRuangan > 0) {
+    // Ambil jadwal booking aktif agar pengguna memilih slot lain.
+    $stmt = $conn->prepare("
+        SELECT pr_tanggal, pr_jam_mulai, pr_jam_selesai
+        FROM peminjaman_ruangan
+        WHERE pr_ruangan_id = ?
+        AND pr_status IN ('pending', 'approved')
+        AND pr_tanggal >= CURDATE()
+        ORDER BY pr_tanggal, pr_jam_mulai
+    ");
+    $stmt->bind_param("i", $idRuangan);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataJadwalRuangan = $result->fetch_all(MYSQLI_ASSOC);
+}
 
+function formatTanggalIndonesia(string $tanggal): string
+{
+    $bulanIndonesia = [
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember',
+    ];
+
+    $timestamp = strtotime($tanggal);
+    if ($timestamp === false) {
+        return $tanggal;
+    }
+
+    $hari = (int) date('d', $timestamp);
+    $bulan = (int) date('m', $timestamp);
+    $tahun = date('Y', $timestamp);
+
+    return $hari . ' ' . ($bulanIndonesia[$bulan] ?? $bulan) . ' ' . $tahun;
+}
 
 
 $success = $_GET['success'] ?? '';
@@ -44,6 +88,26 @@ $error = $_GET['error'] ?? '';
                         <p class="mb-4">
                             <?= nl2br(htmlspecialchars($dataRuangan['r_keterangan'] ?? '-')) ?>
                         </p>
+                        <div class="detail-ruangan__jadwal mb-4">
+                            <h6 class="mb-2">Jadwal untuk ruangan ini</h6>
+                            <?php if (empty($dataJadwalRuangan)): ?>
+                                <small class="mb-2">Belum ada jadwal (Silahkan gunakan ruangan ini sesuai kebutuhan
+                                    anda.)</small>
+                            <?php else: ?>
+                                <ul class="mb-2">
+                                    <?php foreach ($dataJadwalRuangan as $jadwal): ?>
+                                        <li>
+                                            <?= formatTanggalIndonesia($jadwal['pr_tanggal']) ?> :
+                                            <?= substr($jadwal['pr_jam_mulai'], 0, 5) ?> -
+                                            <?= substr($jadwal['pr_jam_selesai'], 0, 5) ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php endif; ?>
+                            <?php if (!empty($dataJadwalRuangan)): ?>
+                                <p class="mb-0">Pinjam ruangan selain di jam dan tanggal tersebut</p>
+                            <?php endif; ?>
+                        </div>
                         <?php if (!isset($_SESSION['jemaat_id']) || empty($_SESSION['jemaat_id'])): ?>
                             <a href="login" class="btn btn-pinjam-ruangan rounded-pill px-4 py-2">
                                 Pinjam Ruangan
@@ -84,8 +148,8 @@ $error = $_GET['error'] ?? '';
 
                             <div class="col-12 col-lg-6 mb-3">
                                 <label class="form-label">Tanggal*</label>
-                                <input type="date" class="form-control" name="tanggal" min="<?= date('Y-m-d') ?>"
-                                    required>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal"
+                                    min="<?= date('Y-m-d') ?>" required>
                             </div>
 
                             <!-- JAM BUTTON -->
@@ -95,7 +159,7 @@ $error = $_GET['error'] ?? '';
                                     $start = str_pad($i, 2, '0', STR_PAD_LEFT) . ":00";
                                     $end   = str_pad(($i + 1) % 24, 2, '0', STR_PAD_LEFT) . ":00";
                                 ?>
-                                    <button type="button" class="btn btn-outline-primary slot-btn"
+                                    <button disabled type="button" class="btn btn-outline-primary slot-btn"
                                         data-start="<?= $start ?>" data-end="<?= $end ?>">
                                         <?= $start ?> - <?= $end ?>
                                     </button>
@@ -127,6 +191,18 @@ $error = $_GET['error'] ?? '';
         </div>
     </div>
 </main>
+
+<!-- VALIDASI HARUS PILIH TANGGAL BARU BISA KLIK JAM -->
+<script>
+    const tanggalInput = document.getElementById('tanggal');
+    const slotButtons = document.querySelectorAll('.slot-btn');
+
+    tanggalInput.addEventListener('change', function() {
+        if (this.value) {
+            slotButtons.forEach(btn => btn.disabled = false);
+        }
+    });
+</script>
 <!-- Sweet Alert -->
 <script>
     <?php if ($success !== '') : ?>
