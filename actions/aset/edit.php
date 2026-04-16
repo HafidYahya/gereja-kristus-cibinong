@@ -18,11 +18,12 @@ $lokasi = trim($_POST['lokasi'] ?? '');
 $status_aset = trim($_POST['status_aset'] ?? '');
 $kondisi_aset = trim($_POST['kondisi_aset'] ?? '');
 $keterangan = trim($_POST['keterangan'] ?? '');
+$boleh_pinjam = (int) $_POST['boleh_pinjam'] ?? '';
 $gambar_lama = trim($_POST['gambar_lama'] ?? '');
 
 
 // Validasi data kosong
-if ($id <= 0 || $master_aset_id === '' || $tanggal_perolehan === '' || $harga_perolehan === '' || $estimasi_harga === '' || $status_aset === '' || $kondisi_aset === '') {
+if ($id <= 0 || $master_aset_id === '' || $tanggal_perolehan === '' || $harga_perolehan === '' || $estimasi_harga === '' || $status_aset === '' || $kondisi_aset === '' || $boleh_pinjam) {
     header('Location:../../admin/index.php?page=detail_aset&p=' . urlencode($p) . '&filter_kelompok=' . urlencode($filterKelompok) . '&filter_kategori=' . urlencode($filterKategori) . '&ma_id=' . $maId . '&action=update&error=Data+tidak+boleh+kosong');
     exit();
 }
@@ -68,8 +69,8 @@ if (isset($_FILES['file_dokumen']) && $_FILES['file_dokumen']['error'] !== 4) {
     }
 }
 
-$stmt = $conn->prepare('UPDATE aset SET a_master_aset_id = ?, a_file_dokumen = ?, a_tgl_perolehan = ?, a_harga_perolehan = ?, a_estimasi_harga = ?, a_lokasi_ruangan_id = ?, a_lokasi = ?, a_status_aset = ?, a_kondisi_aset = ?, a_keterangan = ? WHERE id = ?');
-$stmt->bind_param('issddissssi', $master_aset_id, $namaFile, $tanggal_perolehan, $harga_perolehan, $estimasi_harga, $ruangan_id, $lokasi, $status_aset, $kondisi_aset, $keterangan, $id);
+$stmt = $conn->prepare('UPDATE aset SET a_master_aset_id = ?, a_file_dokumen = ?, a_tgl_perolehan = ?, a_harga_perolehan = ?, a_estimasi_harga = ?, a_lokasi_ruangan_id = ?, a_lokasi = ?, a_status_aset = ?, a_kondisi_aset = ?, a_boleh_dipinjam=?, a_keterangan = ? WHERE id = ?');
+$stmt->bind_param('issddisssisi', $master_aset_id, $namaFile, $tanggal_perolehan, $harga_perolehan, $estimasi_harga, $ruangan_id, $lokasi, $status_aset, $kondisi_aset, $boleh_pinjam, $keterangan, $id);
 $stmt->execute();
 $stmt->close();
 

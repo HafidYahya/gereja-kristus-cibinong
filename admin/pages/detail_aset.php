@@ -6,6 +6,7 @@ $maId = $_GET['ma_id'] ?? '';
 $filterStatusAset = $_GET['filter_status_aset'] ?? '';
 $filterKondisiAset = $_GET['filter_kondisi_aset'] ?? '';
 $filterRuangan = $_GET['filter_ruangan'] ?? '';
+$filterIzinPinjam = $_GET['filter_izin'] ?? '';
 $search = trim($_GET['search'] ?? '');
 // routing
 $currentPage = $_GET['page'] ?? 'detail_aset';
@@ -20,6 +21,12 @@ $offset = ($p - 1) * $limit;
 $where = [];
 $types = '';
 $params = [];
+
+if ($filterIzinPinjam !== '') {
+    $where[] = "a.a_boleh_dipinjam = ?";
+    $types .= "s";
+    $params[] = $filterIzinPinjam;
+}
 
 if ($filterStatusAset !== '') {
     $where[] = "a.a_status_aset = ?";
@@ -82,6 +89,7 @@ SELECT
     a.a_lokasi,
     a.a_status_aset,
     a.a_kondisi_aset,
+    a.a_boleh_dipinjam,
     a.a_keterangan,
     ma.id AS ma_id,
     ma.ma_nama,
@@ -200,6 +208,16 @@ $error = $_GET['error'] ?? '';
             <input type="hidden" name="ma_id" value="<?= htmlspecialchars($maId) ?>">
 
             <div class="col-sm-12 col-lg-4">
+                <label class="form-label" for=""><i class="fas fa-filter"></i> Izin Peminjaman</label>
+                <select name="filter_izin" class="form-select border border-warning">
+                    <option value="">Semua Izin</option>
+                    <option value="1" <?= $filterIzinPinjam == 1 ? 'selected' : '' ?>>Boleh Dipinjam</option>
+                    <option value="0" <?= $filterIzinPinjam == 0 ? 'selected' : '' ?>>Tidak Boleh Dipinjam
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-sm-12 col-lg-4">
                 <label class="form-label" for=""><i class="fas fa-filter"></i> Status Aset</label>
                 <select name="filter_status_aset" class="form-select border border-warning">
                     <option value="">Semua Status</option>
@@ -274,6 +292,7 @@ $error = $_GET['error'] ?? '';
                         <th>Lokasi (Ruangan)</th>
                         <th>Status Aset</th>
                         <th>Kondisi Aset</th>
+                        <th>Status Izin</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -319,6 +338,14 @@ $error = $_GET['error'] ?? '';
 
                                 <td><?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_kondisi_aset'] ?? ''))) ?></td>
 
+                                <!-- BOLEH DIPINJAM -->
+                                <td>
+                                    <span style="min-width: 100px"
+                                        class="badge badge-sm <?= (int) $data['a_boleh_dipinjam'] === 1 ? 'bg-success' : 'bg-danger' ?>">
+                                        <?= (int) $data['a_boleh_dipinjam'] === 1 ? 'Boleh Dipinjam' : 'Tidak Boleh Dipinjam' ?>
+                                    </span>
+                                </td>
+
                                 <td>
                                     <button type="button" class="btn btn-sm shadow-md " data-bs-toggle="modal"
                                         data-bs-target="#modal-detail-aset-<?= $data['a_id'] ?>">
@@ -335,6 +362,7 @@ $error = $_GET['error'] ?? '';
                                         <input type="hidden" name="ma_id" value="<?= $maId ?>">
                                         <input type="hidden" name="filter_kelompok" value="<?= $filterKelompok ?>">
                                         <input type="hidden" name="filter_kategori" value="<?= $filterKategori ?>">
+                                        <input type="hidden" name="filter_izin" value="<?= $filterIzinPinjam ?>">
                                         <button type="submit" class="btn btn-sm shadow-md text-danger">
                                             <i class="far fa-trash-can"></i>
                                         </button>
@@ -355,7 +383,7 @@ $error = $_GET['error'] ?? '';
             <!-- Previous -->
             <li class="page-item <?= ($p <= 1) ? 'disabled' : '' ?>">
                 <a class="page-link"
-                    href="index.php?page=detail_aset&p=<?= $p - 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
+                    href="index.php?page=detail_aset&p=<?= $p - 1 ?>&filter_izin=<?= urlencode($filterIzinPinjam) ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
                     Previous
                 </a>
             </li>
@@ -368,7 +396,7 @@ $error = $_GET['error'] ?? '';
             <?php for ($i = $start; $i <= $end; $i++): ?>
                 <li class="page-item <?= ($i == $p) ? 'active' : '' ?>">
                     <a class="page-link"
-                        href="index.php?page=detail_aset&p=<?= $i ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
+                        href="index.php?page=detail_aset&p=<?= $i ?>&filter_izin=<?= urlencode($filterIzinPinjam) ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
                         <?= $i ?>
                     </a>
                 </li>
@@ -377,7 +405,7 @@ $error = $_GET['error'] ?? '';
             <!-- Next -->
             <li class="page-item <?= ($p >= $totalPages) ? 'disabled' : '' ?>">
                 <a class="page-link"
-                    href="index.php?page=detail_aset&p=<?= $p + 1 ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
+                    href="index.php?page=detail_aset&p=<?= $p + 1 ?>&filter_izin=<?= urlencode($filterIzinPinjam) ?>&filter_kelompok=<?= urlencode($filterKelompok) ?>&filter_kategori=<?= urlencode($filterKategori) ?>&ma_id=<?= urlencode($maId) ?>&filter_status_aset=<?= urlencode($filterStatusAset) ?>&filter_kondisi_aset=<?= urlencode($filterKondisiAset) ?>&filter_ruangan=<?= urlencode($filterRuangan) ?>&search=<?= urlencode($search) ?>">
                     Next
                 </a>
             </li>
@@ -596,11 +624,13 @@ $error = $_GET['error'] ?? '';
                                 <input type="hidden" name="ma_id" value="<?= $maId ?>">
                                 <input type="hidden" name="filter_kelompok" value="<?= $filterKelompok ?>">
                                 <input type="hidden" name="filter_kategori" value="<?= $filterKategori ?>">
+                                <input type="hidden" name="filter_izin" value="<?= $filterIzinPinjam ?>">
 
                                 <!-- MASTER ASET -->
                                 <div class="col-12 col-lg-6 mb-3">
                                     <label class="form-label">Aset*</label>
-                                    <select id="master_aset_id" class="form-control" name="master_aset_id" required>
+                                    <select id="master_aset_id_<?= $data['a_id'] ?>" class="form-control"
+                                        name="master_aset_id" required>
                                         <option value="">Pilih Aset</option>
                                         <?php foreach ($master_aset as $ma): ?>
                                             <?php if ($ma['ma_is_active'] == 1): ?>
@@ -616,14 +646,14 @@ $error = $_GET['error'] ?? '';
                                 <!-- MERK -->
                                 <div class="col-12 col-lg-6 mb-3">
                                     <label class="form-label">Merk</label>
-                                    <input id="merk" type="text" class="form-control" value="<?= $data['ma_merk'] ?>"
-                                        disabled>
+                                    <input id="merk_<?= $data['a_id'] ?>" type="text" class="form-control"
+                                        value="<?= $data['ma_merk'] ?>" disabled>
                                 </div>
 
                                 <!-- SPESIFIKASI -->
                                 <div class="col-12 mb-3">
                                     <label class="form-label">Spesifikasi</label>
-                                    <div id="spesifikasi_view" class="form-control"
+                                    <div id="spesifikasi_view_<?= $data['a_id'] ?>" class="form-control"
                                         style="min-height:100px; background-color: #e8ecee">
                                         <?= $data['ma_spesifikasi'] ?>
                                     </div>
@@ -631,20 +661,21 @@ $error = $_GET['error'] ?? '';
 
                                 <div class="col-12 col-lg-6 mb-3">
                                     <label class="form-label">Kelompok Aset</label>
-                                    <input class="form-control kelompok_aset" id="kelompok_aset"
+                                    <input class="form-control kelompok_aset" id="kelompok_aset_<?= $data['a_id'] ?>"
                                         value="<?= $data['nama_kelompok'] ?>" disabled>
                                 </div>
 
                                 <div class="col-12 col-lg-6 mb-3">
                                     <label class="form-label">Kategori Aset</label>
-                                    <input class="form-control kategori_aset" id="kategori_aset"
+                                    <input class="form-control kategori_aset" id="kategori_aset_<?= $data['a_id'] ?>"
                                         value="<?= $data['nama_kategori'] ?>" disabled>
                                 </div>
 
                                 <!-- FILE -->
                                 <div class="col-12 col-lg-6 mb-3">
                                     <label class="form-label">File Dokumen</label>
-                                    <input type="file" class="form-control" name="file_dokumen">
+                                    <input type="file" class="form-control" name="file_dokumen"
+                                        accept=".pdf,.png,.jpg,.jpeg">
                                     <?php if (!empty($data['a_file_dokumen'])): ?>
                                         <div class="mt-1">
                                             <a href="../assets/uploads/dokumen_file/<?= $data['a_file_dokumen'] ?>"
@@ -672,9 +703,9 @@ $error = $_GET['error'] ?? '';
                                     <div class="input-group">
                                         <span class="input-group-text bg-white border border-end-0">Rp.
                                         </span>
-                                        <input type="text" class="form-control border border-start-0" id="harga_perolehan"
-                                            name="harga_perolehan" inputmode="numeric" required
-                                            value="<?= $data['a_harga_perolehan'] ?>">
+                                        <input type="text" class="form-control border border-start-0"
+                                            id="harga_perolehan_<?= $data['a_id'] ?>" name="harga_perolehan"
+                                            inputmode="numeric" required value="<?= $data['a_harga_perolehan'] ?>">
                                     </div>
                                 </div>
 
@@ -684,9 +715,9 @@ $error = $_GET['error'] ?? '';
                                     <div class="input-group">
                                         <span class="input-group-text bg-white border border-end-0">Rp.
                                         </span>
-                                        <input type="text" class="form-control border border-start-0" id="estimasi_harga"
-                                            name="estimasi_harga" value="<?= $data['a_estimasi_harga'] ?>"
-                                            inputmode="numeric" required>
+                                        <input type="text" class="form-control border border-start-0"
+                                            id="estimasi_harga_<?= $data['a_id'] ?>" name="estimasi_harga"
+                                            value="<?= $data['a_estimasi_harga'] ?>" inputmode="numeric" required>
                                     </div>
                                 </div>
 
@@ -756,9 +787,30 @@ $error = $_GET['error'] ?? '';
                                 </div>
 
                                 <!-- KETERANGAN -->
-                                <div class="col-12">
+                                <div class="col-12 mb-3">
                                     <label class="form-label">Keterangan</label>
                                     <textarea name="keterangan" class="form-control"><?= $data['a_keterangan'] ?></textarea>
+                                </div>
+
+                                <!-- RADIO BOLEH PINJAM -->
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio"
+                                            name="boleh_pinjam_<?= $data['a_id'] ?>"
+                                            id="status-boleh-dipinjam-<?= $data['a_id'] ?>" value="1"
+                                            <?= (int) $data['a_boleh_dipinjam'] === 1 ? 'checked' : '' ?> required>
+                                        <label class="form-check-label text-success fw-bold"
+                                            for="status-boleh-dipinjam-<?= $data['a_id'] ?>">Boleh Dipinjam</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio"
+                                            name="boleh_pinjam_<?= $data['a_id'] ?>"
+                                            id="status-tidak-boleh-dipinjam-<?= $data['a_id'] ?>" value="0"
+                                            <?= (int)$data['a_boleh_dipinjam'] === 0 ? 'checked' : '' ?>>
+                                        <label class="form-check-label text-danger fw-bold"
+                                            for="status-tidak-boleh-dipinjam-<?= $data['a_id'] ?>">Tidak Boleh
+                                            Dipinjam</label>
+                                    </div>
                                 </div>
 
                             </div>
@@ -783,7 +835,8 @@ $error = $_GET['error'] ?? '';
 <!-- Auto Fill Modal Tambah Data -->
 <script>
     const masterAset = <?= json_encode($master_aset, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
-    document.querySelectorAll('#master_aset_id').forEach(select => {
+
+    document.querySelectorAll('[id^="master_aset_id_"]').forEach(select => {
         select.addEventListener("change", function() {
             const id = this.value;
             const modal = this.closest('.modal');
@@ -791,17 +844,18 @@ $error = $_GET['error'] ?? '';
             const data = masterAset.find(a => a.id == id);
             if (!data) return;
 
-            modal.querySelector('#merk').value = data.ma_merk || '';
-            modal.querySelector('#spesifikasi_view').innerHTML = data.ma_spesifikasi || '';
-            modal.querySelector('#kelompok_aset').value = data.nama_kelompok || '';
-            modal.querySelector('#kategori_aset').value = data.nama_kategori || '';
+            modal.querySelector('[id^="merk_"]').value = data.ma_merk || '';
+            modal.querySelector('[id^="spesifikasi_view_"]').innerHTML = data.ma_spesifikasi || '';
+            modal.querySelector('[id^="kelompok_aset_"]').value = data.nama_kelompok || '';
+            modal.querySelector('[id^="kategori_aset_"]').value = data.nama_kategori || '';
         });
     });
 </script>
+
 <!-- Validasi Numeric Input -->
 <script>
-    ['harga_perolehan', 'estimasi_harga'].forEach(function(id) {
-        document.getElementById(id).addEventListener("input", function() {
+    document.querySelectorAll('[id^="harga_perolehan_"], [id^="estimasi_harga_"]').forEach(function(el) {
+        el.addEventListener("input", function() {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
     });

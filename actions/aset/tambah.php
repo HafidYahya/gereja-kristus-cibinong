@@ -9,6 +9,7 @@ $lokasi = trim($_POST['lokasi'] ?? '');
 $status_aset = trim($_POST['status_aset'] ?? '');
 $kondisi_aset = trim($_POST['kondisi_aset'] ?? '');
 $keterangan = trim($_POST['keterangan'] ?? '');
+$boleh_pinjam = (int) $_POST['boleh_pinjam'];
 
 
 
@@ -34,8 +35,8 @@ if (isset($_FILES['file_dokumen']) && $_FILES['file_dokumen']['error'] !== 4) {
         }
         move_uploaded_file($tmpName, __DIR__ . '/../../assets/uploads/dokumen_file/' . $namaFile);
 
-        $stmt = $conn->prepare("INSERT INTO aset (a_master_aset_id, a_file_dokumen, a_tgl_perolehan, a_harga_perolehan, a_estimasi_harga, a_lokasi_ruangan_id, a_lokasi, a_status_aset, a_kondisi_aset, a_keterangan) VALUES (?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param('issddissss', $master_aset_id, $namaFile, $tanggal_perolehan, $harga_perolehan, $estimasi_harga, $ruangan_id, $lokasi, $status_aset, $kondisi_aset, $keterangan);
+        $stmt = $conn->prepare("INSERT INTO aset (a_master_aset_id, a_file_dokumen, a_tgl_perolehan, a_harga_perolehan, a_estimasi_harga, a_lokasi_ruangan_id, a_lokasi, a_status_aset, a_kondisi_aset, a_boleh_dipinjam, a_keterangan) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param('issddisssis', $master_aset_id, $namaFile, $tanggal_perolehan, $harga_perolehan, $estimasi_harga, $ruangan_id, $lokasi, $status_aset, $kondisi_aset, $boleh_pinjam, $keterangan);
         $stmt->execute();
         $stmt->close();
         header('Location: ../../admin/index.php?page=aset&action=tambah&success=Aset+baru+berhasil+ditambahkan');
@@ -44,8 +45,8 @@ if (isset($_FILES['file_dokumen']) && $_FILES['file_dokumen']['error'] !== 4) {
         exit();
     }
 } else {
-    $stmt = $conn->prepare("INSERT INTO aset (a_master_aset_id, a_tgl_perolehan, a_harga_perolehan, a_estimasi_harga, a_lokasi_ruangan_id, a_lokasi, a_status_aset, a_kondisi_aset, a_keterangan) VALUES (?,?,?,?,?,?,?,?,?)");
-    $stmt->bind_param('isddissss', $master_aset_id, $tanggal_perolehan, $harga_perolehan, $estimasi_harga, $ruangan_id, $lokasi, $status_aset, $kondisi_aset, $keterangan);
+    $stmt = $conn->prepare("INSERT INTO aset (a_master_aset_id, a_tgl_perolehan, a_harga_perolehan, a_estimasi_harga, a_lokasi_ruangan_id, a_lokasi, a_status_aset, a_kondisi_aset, a_boleh_dipinjam, a_keterangan) VALUES (?,?,?,?,?,?,?,?,?,?)");
+    $stmt->bind_param('isddisssis', $master_aset_id, $tanggal_perolehan, $harga_perolehan, $estimasi_harga, $ruangan_id, $lokasi, $status_aset, $kondisi_aset, $boleh_pinjam, $keterangan);
     $stmt->execute();
     $stmt->close();
     header('Location: ../../admin/index.php?page=aset&action=tambah&success=Aset+baru+berhasil+ditambahkan');

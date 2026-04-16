@@ -410,6 +410,22 @@ $error = $_GET['error'] ?? '';
                                 <textarea name="keterangan" class="form-control" rows="3"></textarea>
                             </div>
 
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="boleh_pinjam"
+                                        id="status-boleh-dipinjam" value="1" required>
+                                    <label class="form-check-label text-success fw-bold"
+                                        for="status-boleh-dipinjam">Boleh Dipinjam</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="boleh_pinjam"
+                                        id="status-tidak-boleh-dipinjam" value="0">
+                                    <label class="form-check-label text-danger fw-bold"
+                                        for="status-tidak-boleh-dipinjam">Tidak Boleh
+                                        Dipinjam</label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
