@@ -4,6 +4,12 @@ if (!isset($_SESSION['jemaat_id'])) {
     exit();
 }
 include __DIR__ . "/../../config/koneksi.php";
+
+$query = mysqli_query($conn, "SELECT * FROM master_aset WHERE ma_is_active=1");
+$master_aset = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+
+
 $success = $_GET['success'] ?? '';
 $error = $_GET['error'] ?? '';
 ?>
@@ -20,47 +26,118 @@ $error = $_GET['error'] ?? '';
         </div>
         <div class="row">
             <form method="post" action="actions/peminjaman_aset/tambah.php" class="row g-4">
-                <div class="col-lg-8 col-md-7">
-                    <div class="mb-3">
-                        <label for="nama" class="form-label">Nama*</label>
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan nama lengkap"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email*</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password*</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Masukan password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirm_password" class="form-label">Konfirmasi Password*</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
-                            placeholder="Masukan konfirmasi password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_hp" class="form-label">Nomor Handphone*</label>
-                        <input type="text" class="form-control" id="no_hp" name="no_hp" inputmode="numeric"
-                            placeholder="Contoh: 08123456789" required>
+                <!-- HIDDEN INPUT -->
+                <input type="hidden" name="jemaat_id" value="<?= $_SESSION['jemaat_id'] ?>">
+                <input type="hidden" name="status" value="pending">
 
-                    </div>
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat*</label>
-                        <textarea class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat lengkap"
-                            rows="3" required></textarea>
-                    </div>
+                <div class="mb-3 col-12">
+                    <label for="nama" class="form-label">Aset*</label>
+                    <select class="form-control" id="master_aset" name="master_aset" required>
+                        <option value="">--Pilih Aset--</option>
+                        <?php foreach ($master_aset as $ma): ?>
+                            <option value="<?= $ma['id'] ?>"><?= $ma['ma_nama'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-                    <button type="submit" class="btn btn-register-now rounded-pill">Daftar Sekarang</button>
+                <div class="mb-3 col-lg-6 col-md-12">
+                    <label for="merk" class="form-label merk">Merk</label>
+                    <input type="text" class="form-control" id="merk" disabled required>
+                </div>
+
+                <div class="mb-3 col-lg-6 col-md-12">
+                    <label for="qty" class="form-label">QTY*</label>
+                    <input type="text" class="form-control qty" id="qty" name="qty" inputmode="numeric"
+                        placeholder="Masukan minimal 1" required>
+                </div>
+
+                <!-- SPESIFIKASI -->
+                <div class="col-12 mb-3">
+                    <label class="form-label">Spesifikasi</label>
+                    <div id="spesifikasi_view" class="form-control spesifikasi_view"
+                        style="min-height:100px; background-color: #e8ecee">
+                    </div>
+                </div>
+
+
+
+                <div class="mb-3 col-lg-12">
+                    <button type="submit" class="btn btn-register-now rounded-pill">SUBMIT</button>
                 </div>
             </form>
         </div>
     </section>
 
 </main>
+<!-- VALIDASI INPUT QTY -->
+<script>
+    document.querySelector(".qty").addEventListener("input", function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
 
+<!-- KONFIRMASI -->
+<!-- KONFIRMASI SUBMIT -->
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+
+        // Validasi qty minimal 1
+        const qty = parseInt(document.querySelector('#qty').value);
+        if (!qty || qty < 1) {
+            Swal.fire({
+                title: "Perhatian!",
+                text: "QTY minimal 1 untuk melakukan pengajuan aset ini",
+                icon: "warning"
+            });
+            return;
+        }
+
+        // Validasi aset dipilih
+        const aset = document.querySelector('#master_aset').value;
+        if (!aset) {
+            Swal.fire({
+                title: "Perhatian!",
+                text: "Silakan pilih aset terlebih dahulu",
+                icon: "warning"
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: "Konfirmasi Peminjaman",
+            text: "Apakah anda yakin ingin mengajukan peminjaman aset ini?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#198754",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Batal",
+            confirmButtonText: "Ya, Ajukan"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+</script>
+<!-- AUTOFILL MERK DAN SPESIFIKASI -->
+<script>
+    const masterAset = <?= json_encode($master_aset, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
+    document.querySelector('#master_aset').addEventListener("change", function() {
+        const id = this.value;
+        const data = masterAset.find(a => a.id == id);
+
+        if (!data) {
+            document.querySelector('#merk').value = '';
+            document.querySelector('#spesifikasi_view').innerHTML = '';
+            return;
+        }
+
+        document.querySelector('#merk').value = data.ma_merk || '';
+        document.querySelector('#spesifikasi_view').innerHTML = data.ma_spesifikasi || '';
+    });
+</script>
 <!-- Sweet Alert -->
 <script>
     <?php if ($success !== '') : ?>

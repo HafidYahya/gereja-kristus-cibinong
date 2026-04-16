@@ -18,12 +18,12 @@ $lokasi = trim($_POST['lokasi'] ?? '');
 $status_aset = trim($_POST['status_aset'] ?? '');
 $kondisi_aset = trim($_POST['kondisi_aset'] ?? '');
 $keterangan = trim($_POST['keterangan'] ?? '');
-$boleh_pinjam = (int) $_POST['boleh_pinjam'] ?? '';
+$boleh_pinjam = (int) ($_POST['boleh_pinjam_' . $id] ?? 0);
 $gambar_lama = trim($_POST['gambar_lama'] ?? '');
 
 
 // Validasi data kosong
-if ($id <= 0 || $master_aset_id === '' || $tanggal_perolehan === '' || $harga_perolehan === '' || $estimasi_harga === '' || $status_aset === '' || $kondisi_aset === '' || $boleh_pinjam) {
+if ($id <= 0 || $master_aset_id === '' || $tanggal_perolehan === '' || $harga_perolehan === '' || $estimasi_harga === '' || $status_aset === '' || $kondisi_aset === '' || !in_array($boleh_pinjam, [0, 1])) {
     header('Location:../../admin/index.php?page=detail_aset&p=' . urlencode($p) . '&filter_kelompok=' . urlencode($filterKelompok) . '&filter_kategori=' . urlencode($filterKategori) . '&ma_id=' . $maId . '&action=update&error=Data+tidak+boleh+kosong');
     exit();
 }

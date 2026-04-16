@@ -440,7 +440,6 @@ $error = $_GET['error'] ?? '';
 
 </div>
 <!-- Auto Fill Modal Tambah Data -->
-<!-- Auto Fill Modal Tambah Data -->
 <script>
     const masterAset = <?= json_encode($master_aset, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
     document.querySelectorAll('#master_aset_id').forEach(select => {
