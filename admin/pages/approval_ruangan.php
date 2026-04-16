@@ -147,46 +147,46 @@ $error = $_GET['error'] ?? '';
                 <tbody>
                     <?php $no = $offset + 1; ?>
                     <?php if (empty($peminjaman_ruangan)) : ?>
-                    <tr>
-                        <td colspan="6" class="text-center text-muted">
-                            <i class="fas fa-file-circle-xmark me-3"></i>Data tidak ditemukan
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                <i class="fas fa-file-circle-xmark me-3"></i>Data tidak ditemukan
+                            </td>
+                        </tr>
                     <?php else : ?>
-                    <?php foreach ($peminjaman_ruangan as $pr) : ?>
-                    <!-- HITUNG TOTAL JAM -->
-                    <?php
+                        <?php foreach ($peminjaman_ruangan as $pr) : ?>
+                            <!-- HITUNG TOTAL JAM -->
+                            <?php
                             $mulai = strtotime($pr['pr_jam_mulai']);
                             $selesai = strtotime($pr['pr_jam_selesai']);
                             $durasiJam = ($selesai - $mulai) / 3600;
                             ?>
-                    <tr>
-                        <td><?= $no++ ?></td>
+                            <tr>
+                                <td><?= $no++ ?></td>
 
-                        <!-- NAMA JEMAAT -->
-                        <td><?= htmlspecialchars($pr['j_nama']) ?></td>
+                                <!-- NAMA JEMAAT -->
+                                <td><?= htmlspecialchars($pr['j_nama']) ?></td>
 
-                        <!-- NAMA EMAIL -->
-                        <td><?= htmlspecialchars($pr['j_email']) ?></td>
+                                <!-- NAMA EMAIL -->
+                                <td><?= htmlspecialchars($pr['j_email']) ?></td>
 
-                        <!-- RUANGAAN YANG DIPINJAM -->
-                        <td><?= htmlspecialchars($pr['r_nama']) ?></td>
+                                <!-- RUANGAAN YANG DIPINJAM -->
+                                <td><?= htmlspecialchars($pr['r_nama']) ?></td>
 
-                        <!-- TANGGAL -->
-                        <td><?= date('d/m/Y', strtotime($pr['pr_tanggal'])) ?></td>
+                                <!-- TANGGAL -->
+                                <td><?= date('d/m/Y', strtotime($pr['pr_tanggal'])) ?></td>
 
-                        <!-- JAM MULAI -->
-                        <td><?= $pr['pr_jam_mulai'] ?></td>
+                                <!-- JAM MULAI -->
+                                <td><?= $pr['pr_jam_mulai'] ?></td>
 
-                        <!-- JAM SELESAI -->
-                        <td><?= $pr['pr_jam_selesai'] ?></td>
+                                <!-- JAM SELESAI -->
+                                <td><?= $pr['pr_jam_selesai'] ?></td>
 
-                        <!-- TOTAL JAM -->
-                        <td><?= $durasiJam ?> Jam</td>
+                                <!-- TOTAL JAM -->
+                                <td><?= $durasiJam ?> Jam</td>
 
-                        <!-- STATUS -->
-                        <td>
-                            <?php
+                                <!-- STATUS -->
+                                <td>
+                                    <?php
                                     $status = $pr['pr_status'];
                                     $badgeClass = match ($status) {
                                         'pending' => 'bg-warning text-dark',
@@ -196,24 +196,24 @@ $error = $_GET['error'] ?? '';
                                         default => 'bg-secondary'
                                     };
                                     ?>
-                            <span class="badge <?= $badgeClass ?>">
-                                <?= ucfirst($status) ?>
-                            </span>
-                        </td>
+                                    <span style="min-width: 80px" class="badge <?= $badgeClass ?>">
+                                        <?= ucfirst($status) ?>
+                                    </span>
+                                </td>
 
-                        <!-- BUTTON PROSES & DETAIL -->
-                        <td>
-                            <?php if ($pr['pr_status'] === 'pending' || $pr['pr_status'] === 'approved'): ?>
-                            <button style="min-width: 100px" type="button"
-                                class="btn btn-primary btn-sm shadow-md fw-bold" data-bs-toggle="modal"
-                                data-bs-target="#modal-proses-peminjaman_ruangan-<?= $pr['pr_id'] ?>">
-                                Proses
-                            </button>
-                            <?php endif; ?>
-                        </td>
+                                <!-- BUTTON PROSES & DETAIL -->
+                                <td>
+                                    <?php if ($pr['pr_status'] === 'pending' || $pr['pr_status'] === 'approved'): ?>
+                                        <button style="min-width: 100px" type="button"
+                                            class="btn btn-primary btn-sm shadow-md fw-bold" data-bs-toggle="modal"
+                                            data-bs-target="#modal-proses-peminjaman_ruangan-<?= $pr['pr_id'] ?>">
+                                            Proses
+                                        </button>
+                                    <?php endif; ?>
+                                </td>
 
-                    </tr>
-                    <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -238,12 +238,12 @@ $error = $_GET['error'] ?? '';
             ?>
 
             <?php for ($i = $start; $i <= $end; $i++): ?>
-            <li class="page-item <?= ($i == $p) ? 'active' : '' ?>">
-                <a class="page-link"
-                    href="index.php?page=approval_ruangan&p=<?= $i ?>&filter=<?= urlencode($filter) ?>&search=<?= urlencode($search) ?>">
-                    <?= $i ?>
-                </a>
-            </li>
+                <li class="page-item <?= ($i == $p) ? 'active' : '' ?>">
+                    <a class="page-link"
+                        href="index.php?page=approval_ruangan&p=<?= $i ?>&filter=<?= urlencode($filter) ?>&search=<?= urlencode($search) ?>">
+                        <?= $i ?>
+                    </a>
+                </li>
             <?php endfor; ?>
 
             <!-- Next -->
@@ -259,247 +259,247 @@ $error = $_GET['error'] ?? '';
 
     <!-- MODAL PROSES -->
     <?php foreach ($peminjaman_ruangan as $pr) : ?>
-    <div class="modal fade" id="modal-proses-peminjaman_ruangan-<?= $pr['pr_id'] ?>" tabindex="-1"
-        aria-labelledby="modal-proses-label-<?= $pr['pr_id'] ?>" aria-hidden="true">
+        <div class="modal fade" id="modal-proses-peminjaman_ruangan-<?= $pr['pr_id'] ?>" tabindex="-1"
+            aria-labelledby="modal-proses-label-<?= $pr['pr_id'] ?>" aria-hidden="true">
 
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content border-0 shadow-sm rounded-4">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content border-0 shadow-sm rounded-4">
 
-                <!-- HEADER -->
-                <div class="modal-header" style="background-color: #EF9F27;">
-                    <h5 class="modal-title fw-semibold" id="modal-proses-label-<?= $pr['pr_id'] ?>"
-                        style="color: #412402;">
-                        Proses Peminjaman
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                    <!-- HEADER -->
+                    <div class="modal-header" style="background-color: #EF9F27;">
+                        <h5 class="modal-title fw-semibold" id="modal-proses-label-<?= $pr['pr_id'] ?>"
+                            style="color: #412402;">
+                            Proses Peminjaman
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <!-- FORM -->
-                <form action="../actions/peminjaman_ruangan/proses.php" method="POST"
-                    class="form-confirm-proses d-flex flex-column overflow-hidden">
-                    <div class="modal-body px-4 py-3">
+                    <!-- FORM -->
+                    <form action="../actions/peminjaman_ruangan/proses.php" method="POST"
+                        class="form-confirm-proses d-flex flex-column overflow-hidden">
+                        <div class="modal-body px-4 py-3">
 
-                        <!-- HIDDEN INPUT FILTER -->
-                        <input type="hidden" name="filter" value="<?= $filter ?>">
+                            <!-- HIDDEN INPUT FILTER -->
+                            <input type="hidden" name="filter" value="<?= $filter ?>">
 
-                        <!-- HIDDEN ID -->
-                        <input type="hidden" name="id" value="<?= $pr['pr_id'] ?>">
+                            <!-- HIDDEN ID -->
+                            <input type="hidden" name="id" value="<?= $pr['pr_id'] ?>">
 
-                        <!-- SEKSI: INFORMASI PEMINJAM -->
-                        <p class="text-uppercase text-secondary fw-semibold mb-2">
-                            Informasi Peminjam
-                        </p>
+                            <!-- SEKSI: INFORMASI PEMINJAM -->
+                            <p class="text-uppercase text-secondary fw-semibold mb-2">
+                                Informasi Peminjam
+                            </p>
 
-                        <!-- HEADER PEMINJAM -->
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <?php $foto = !empty($pr['j_foto']) ? $pr['j_foto'] : 'profile-default.jpg'; ?>
-                            <img src="../assets/uploads/jemaat/<?= htmlspecialchars($foto) ?>"
-                                style="width:52px; height:52px; object-fit:cover; border-radius:50%;" class="border">
-                            <div>
-                                <div class="fw-semibold"><?= htmlspecialchars($pr['j_nama']) ?>
-                                </div>
-                                <div class="text-muted"><?= htmlspecialchars($pr['j_email']) ?>
+                            <!-- HEADER PEMINJAM -->
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <?php $foto = !empty($pr['j_foto']) ? $pr['j_foto'] : 'profile-default.jpg'; ?>
+                                <img src="../assets/uploads/jemaat/<?= htmlspecialchars($foto) ?>"
+                                    style="width:52px; height:52px; object-fit:cover; border-radius:50%;" class="border">
+                                <div>
+                                    <div class="fw-semibold"><?= htmlspecialchars($pr['j_nama']) ?>
+                                    </div>
+                                    <div class="text-muted"><?= htmlspecialchars($pr['j_email']) ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- DETAIL PEMINJAM -->
-                        <div class="rounded-3 p-3 mb-3" style="background: var(--bs-secondary-bg);">
-                            <div class="row g-2" style="font-size: 13px;">
-                                <div class="col-4 text-muted">No. Handphone</div>
-                                <div class="col-8"><?= htmlspecialchars($pr['j_no_hp']) ?></div>
+                            <!-- DETAIL PEMINJAM -->
+                            <div class="rounded-3 p-3 mb-3" style="background: var(--bs-secondary-bg);">
+                                <div class="row g-2" style="font-size: 13px;">
+                                    <div class="col-4 text-muted">No. Handphone</div>
+                                    <div class="col-8"><?= htmlspecialchars($pr['j_no_hp']) ?></div>
 
-                                <div class="col-4 text-muted">Email</div>
-                                <div class="col-8"><?= htmlspecialchars($pr['j_email']) ?></div>
+                                    <div class="col-4 text-muted">Email</div>
+                                    <div class="col-8"><?= htmlspecialchars($pr['j_email']) ?></div>
 
-                                <div class="col-4 text-muted">Alamat</div>
-                                <div class="col-8"><?= nl2br(htmlspecialchars($pr['j_alamat'] ?? '-')) ?></div>
+                                    <div class="col-4 text-muted">Alamat</div>
+                                    <div class="col-8"><?= nl2br(htmlspecialchars($pr['j_alamat'] ?? '-')) ?></div>
+                                </div>
                             </div>
-                        </div>
 
-                        <hr class="my-3">
+                            <hr class="my-3">
 
-                        <!-- SEKSI: DETAIL PEMINJAMAN -->
-                        <p class="text-uppercase text-secondary fw-semibold mb-2">
-                            Detail Peminjaman
-                        </p>
+                            <!-- SEKSI: DETAIL PEMINJAMAN -->
+                            <p class="text-uppercase text-secondary fw-semibold mb-2">
+                                Detail Peminjaman
+                            </p>
 
-                        <div class="rounded-3 p-3 mb-3" style="background: var(--bs-secondary-bg);">
-                            <div class="row g-2" style="font-size: 13px;">
-                                <div class="col-4 text-muted">Nama Ruangan</div>
-                                <div class="col-8"><?= htmlspecialchars($pr['r_nama']) ?></div>
+                            <div class="rounded-3 p-3 mb-3" style="background: var(--bs-secondary-bg);">
+                                <div class="row g-2" style="font-size: 13px;">
+                                    <div class="col-4 text-muted">Nama Ruangan</div>
+                                    <div class="col-8"><?= htmlspecialchars($pr['r_nama']) ?></div>
 
-                                <div class="col-4 text-muted">Tanggal</div>
-                                <div class="col-8"><?= date('d/m/Y', strtotime($pr['pr_tanggal'])) ?></div>
+                                    <div class="col-4 text-muted">Tanggal</div>
+                                    <div class="col-8"><?= date('d/m/Y', strtotime($pr['pr_tanggal'])) ?></div>
 
-                                <div class="col-4 text-muted">Jam Mulai</div>
-                                <div class="col-8"><?= substr($pr['pr_jam_mulai'], 0, 5) ?></div>
+                                    <div class="col-4 text-muted">Jam Mulai</div>
+                                    <div class="col-8"><?= substr($pr['pr_jam_mulai'], 0, 5) ?></div>
 
-                                <div class="col-4 text-muted">Jam Selesai</div>
-                                <div class="col-8"><?= substr($pr['pr_jam_selesai'], 0, 5) ?></div>
+                                    <div class="col-4 text-muted">Jam Selesai</div>
+                                    <div class="col-8"><?= substr($pr['pr_jam_selesai'], 0, 5) ?></div>
 
-                                <div class="col-4 text-muted">Total Durasi</div>
-                                <div class="col-8">
-                                    <?php
+                                    <div class="col-4 text-muted">Total Durasi</div>
+                                    <div class="col-8">
+                                        <?php
                                         $mulai = strtotime($pr['pr_jam_mulai']);
                                         $selesai = strtotime($pr['pr_jam_selesai']);
                                         $durasi = ($selesai - $mulai) / 3600;
                                         echo $durasi . " jam";
                                         ?>
+                                    </div>
+
+                                    <div class="col-4 text-muted">Alasan</div>
+                                    <div class="col-8"><?= nl2br(htmlspecialchars($pr['pr_alasan'])) ?></div>
                                 </div>
-
-                                <div class="col-4 text-muted">Alasan</div>
-                                <div class="col-8"><?= nl2br(htmlspecialchars($pr['pr_alasan'])) ?></div>
                             </div>
+
+                            <hr class="my-3">
+
+                            <!-- SEKSI: UBAH STATUS -->
+                            <p class="text-uppercase text-secondary fw-semibold mb-2"
+                                style="font-size: 11px; letter-spacing: 0.05em;">
+                                Ubah Status
+                            </p>
+                            <div class="d-flex gap-3">
+                                <?php if ($pr['pr_status'] === 'pending'): ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status"
+                                            id="status-approved-<?= $pr['pr_id'] ?>" value="approved" required>
+                                        <label class="form-check-label text-success fw-bold"
+                                            for="status-approved-<?= $pr['pr_id'] ?>">Setujui</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status"
+                                            id="status-cancel-<?= $pr['pr_id'] ?>" value="cancel">
+                                        <label class="form-check-label text-danger fw-bold"
+                                            for="status-cancel-<?= $pr['pr_id'] ?>">Tolak</label>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($pr['pr_status'] === 'approved') : ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status"
+                                            id="status-finish-<?= $pr['pr_id'] ?>" value="finish">
+                                        <label class="form-check-label fw-bold"
+                                            for="status-finish-<?= $pr['pr_id'] ?>">Selesai</label>
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+
                         </div>
 
-                        <hr class="my-3">
-
-                        <!-- SEKSI: UBAH STATUS -->
-                        <p class="text-uppercase text-secondary fw-semibold mb-2"
-                            style="font-size: 11px; letter-spacing: 0.05em;">
-                            Ubah Status
-                        </p>
-                        <div class="d-flex gap-3">
-                            <?php if ($pr['pr_status'] === 'pending'): ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status"
-                                    id="status-approved-<?= $pr['pr_id'] ?>" value="approved" required>
-                                <label class="form-check-label text-success fw-bold"
-                                    for="status-approved-<?= $pr['pr_id'] ?>">Setujui</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status"
-                                    id="status-cancel-<?= $pr['pr_id'] ?>" value="cancel">
-                                <label class="form-check-label text-danger fw-bold"
-                                    for="status-cancel-<?= $pr['pr_id'] ?>">Tolak</label>
-                            </div>
-                            <?php endif; ?>
-                            <?php if ($pr['pr_status'] === 'approved') : ?>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="status"
-                                    id="status-finish-<?= $pr['pr_id'] ?>" value="finish">
-                                <label class="form-check-label fw-bold"
-                                    for="status-finish-<?= $pr['pr_id'] ?>">Selesai</label>
-                            </div>
-                            <?php endif; ?>
-
+                        <!-- FOOTER -->
+                        <div class="modal-footer px-4">
+                            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn fw-semibold"
+                                style="background-color: #EF9F27; color: #412402;">Proses</button>
                         </div>
+                    </form>
 
-                    </div>
-
-                    <!-- FOOTER -->
-                    <div class="modal-footer px-4">
-                        <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn fw-semibold"
-                            style="background-color: #EF9F27; color: #412402;">Proses</button>
-                    </div>
-                </form>
-
+                </div>
             </div>
         </div>
-    </div>
     <?php endforeach; ?>
 
 
 </div>
 <!-- Konfirmasi Delete -->
 <script>
-document.querySelectorAll('.form-confirm-delete').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+    document.querySelectorAll('.form-confirm-delete').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        Swal.fire({
-            title: "Hapus Data",
-            text: "Apakah anda yakin akan menghapus data ini?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#e6b53c",
-            cancelButtonColor: "#d33",
-            cancelButtonText: "Batal",
-            confirmButtonText: "Ya, hapus"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
+            Swal.fire({
+                title: "Hapus Data",
+                text: "Apakah anda yakin akan menghapus data ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e6b53c",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Batal",
+                confirmButtonText: "Ya, hapus"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         });
     });
-});
 </script>
 <script>
-const showPasswordCheckbox = document.getElementById('showPassword');
-const passwordInput = document.getElementById('password');
+    const showPasswordCheckbox = document.getElementById('showPassword');
+    const passwordInput = document.getElementById('password');
 
-if (showPasswordCheckbox && passwordInput) {
-    showPasswordCheckbox.addEventListener('change', function() {
-        passwordInput.type = this.checked ? 'text' : 'password';
-    });
-}
-document.querySelectorAll('.show-password-edit').forEach((checkbox) => {
-    checkbox.addEventListener('change', function() {
-        const targetId = this.getAttribute('data-target');
-        const input = targetId ? document.getElementById(targetId) : null;
-        if (input) {
-            input.type = this.checked ? 'text' : 'password';
-        }
-    });
-});
-</script>
-<script>
-document.getElementById("no_hp").addEventListener("input", function() {
-    this.value = this.value.replace(/[^0-9]/g, '');
-});
-// ================== CONFIRM SUBMIT ==================
-document.querySelectorAll('.form-confirm-edit').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        Swal.fire({
-            title: "Konfirmasi Perubahan Data",
-            text: "Apakah anda yakin akan mengubah data ini?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#e6b53c",
-            cancelButtonColor: "#d33",
-            cancelButtonText: "Batal",
-            confirmButtonText: "Ya, simpan perubahan"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    });
-});
-
-// ================== TOAST ==================
-const getToast = () => {
-    if (!window._toastInstance) {
-        window._toastInstance = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-            }
+    if (showPasswordCheckbox && passwordInput) {
+        showPasswordCheckbox.addEventListener('change', function() {
+            passwordInput.type = this.checked ? 'text' : 'password';
         });
     }
-    return window._toastInstance;
-};
+    document.querySelectorAll('.show-password-edit').forEach((checkbox) => {
+        checkbox.addEventListener('change', function() {
+            const targetId = this.getAttribute('data-target');
+            const input = targetId ? document.getElementById(targetId) : null;
+            if (input) {
+                input.type = this.checked ? 'text' : 'password';
+            }
+        });
+    });
+</script>
+<script>
+    document.getElementById("no_hp").addEventListener("input", function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    // ================== CONFIRM SUBMIT ==================
+    document.querySelectorAll('.form-confirm-edit').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-<?php if ($success !== '') : ?>
-getToast().fire({
-    icon: 'success',
-    title: '<?= htmlspecialchars($success) ?>'
-});
-<?php endif; ?>
+            Swal.fire({
+                title: "Konfirmasi Perubahan Data",
+                text: "Apakah anda yakin akan mengubah data ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#e6b53c",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Batal",
+                confirmButtonText: "Ya, simpan perubahan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
 
-<?php if ($error !== '') : ?>
-getToast().fire({
-    icon: 'error',
-    title: '<?= htmlspecialchars($error) ?>'
-});
-<?php endif; ?>
+    // ================== TOAST ==================
+    const getToast = () => {
+        if (!window._toastInstance) {
+            window._toastInstance = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+        }
+        return window._toastInstance;
+    };
+
+    <?php if ($success !== '') : ?>
+        getToast().fire({
+            icon: 'success',
+            title: '<?= htmlspecialchars($success) ?>'
+        });
+    <?php endif; ?>
+
+    <?php if ($error !== '') : ?>
+        getToast().fire({
+            icon: 'error',
+            title: '<?= htmlspecialchars($error) ?>'
+        });
+    <?php endif; ?>
 </script>

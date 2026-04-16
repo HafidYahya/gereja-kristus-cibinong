@@ -61,12 +61,10 @@ LEFT JOIN master_kelompok_aset mkel
     ON ma.ma_master_kelompok_id = mkel.id
 LEFT JOIN master_kategori_aset mkat 
     ON ma.ma_master_kategori_id = mkat.id
-LEFT JOIN ruangan r 
-    ON a.a_lokasi_ruangan_id = r.id
 $whereSql
 GROUP BY 
-    ma.id, ma.ma_nama, ma.ma_merk, ma.ma_master_kelompok_id, 
-    ma.ma_master_kategori_id, mkel.kel_nama, mkat.kat_nama
+    ma.id, ma.ma_nama, ma.ma_merk, ma.ma_spesifikasi, ma.ma_master_kelompok_id, 
+    ma.ma_master_kategori_id, ma.ma_is_active, mkel.kel_nama, mkat.kat_nama
 ORDER BY ma.ma_nama ASC
 LIMIT ? OFFSET ?
 ";
@@ -86,8 +84,6 @@ LEFT JOIN master_kelompok_aset mkel
     ON ma.ma_master_kelompok_id = mkel.id
 LEFT JOIN master_kategori_aset mkat 
     ON ma.ma_master_kategori_id = mkat.id
-LEFT JOIN ruangan r 
-    ON a.a_lokasi_ruangan_id = r.id
 $whereSql
 ";
 $stmtTotal = $conn->prepare($sqlTotal);
@@ -126,7 +122,7 @@ LEFT JOIN master_kelompok_aset mkel
     ON ma.ma_master_kelompok_id = mkel.id
 LEFT JOIN master_kategori_aset mkat 
     ON ma.ma_master_kategori_id = mkat.id
-WHERE ma.ma_is_active = 1
+WHERE ma.ma_is_active = 1 ORDER BY ma.ma_nama ASC
 ";
 $stmtMasterAset = $conn->prepare($sqlMasterAset);
 $stmtMasterAset->execute();
@@ -196,7 +192,7 @@ $error = $_GET['error'] ?? '';
 
             <div class="col-sm-12 col-lg-4">
                 <label class="form-label invisible">Button Invisible</label>
-                <button class="btn w-100 btn-md btn-primary" type="submit" onclick="this.form.submit()">Cari</button>
+                <button class="btn w-100 btn-md btn-primary" type="submit">Cari</button>
             </div>
         </div>
     </form>
@@ -289,68 +285,7 @@ $error = $_GET['error'] ?? '';
         </ul>
     </nav>
 
-    <!-- MODAL FILE DOKUMEN -->
-    <?php foreach ($aset as $data) : ?>
-        <?php
-        $file = $data['a_file_dokumen'] ?? null;
-        $ext = strtolower(pathinfo($file ?? '', PATHINFO_EXTENSION));
-        ?>
 
-        <div class="modal fade" id="modalFile<?= $data['a_id'] ?>" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-
-                    <!-- HEADER -->
-                    <div class="modal-header bg-warning text-white">
-                        <h5 class="modal-title">Preview Dokumen</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <!-- BODY -->
-                    <div class="modal-body text-center">
-
-                        <?php if ($file): ?>
-
-                            <?php if ($ext === 'pdf'): ?>
-                                <iframe src="../assets/uploads/dokumen_file/<?= $file ?>" width="100%" height="500px"></iframe>
-
-                            <?php elseif (in_array($ext, ['jpg', 'jpeg', 'png'])): ?>
-                                <img src="../assets/uploads/dokumen_file/<?= $file ?>" class="img-fluid rounded">
-
-                            <?php else: ?>
-                                <p class="text-muted">Preview tidak tersedia untuk format ini</p>
-                            <?php endif; ?>
-
-                        <?php else: ?>
-                            <p class="text-muted">
-                                <i class="fas fa-file-circle-xmark me-2"></i>
-                                File tidak tersedia
-                            </p>
-                        <?php endif; ?>
-
-                    </div>
-
-                    <!-- FOOTER -->
-                    <div class="modal-footer">
-                        <?php if ($file): ?>
-                            <a href="../actions/aset/download.php?file=<?= urlencode($file) ?>" class="btn btn-success">
-                                <i class="fas fa-download me-1"></i> Download
-                            </a>
-
-                            <a href="../assets/uploads/dokumen_file/<?= $file ?>" target="_blank" class="btn btn-primary">
-                                <i class="fas fa-external-link-alt me-1"></i> Buka di Tab Baru
-                            </a>
-                        <?php endif; ?>
-
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Tutup
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    <?php endforeach; ?>
 
 
     <!-- MODAL TAMBAH -->
@@ -371,16 +306,9 @@ $error = $_GET['error'] ?? '';
                                 <label class="form-label">Aset*</label>
                                 <select class="form-control" name="master_aset_id" id="master_aset_id" required>
                                     <option value="">Pilih Aset</option>
-                                    <!-- Sort the master_aset array by ma_nama -->
-                                    <?php usort($master_aset, function ($a, $b) {
-                                        return strcasecmp($a['ma_nama'], $b['ma_nama']);
-                                    }); ?>
-                                    <?php foreach ($master_aset as $aset): ?>
-                                        <option value="<?= $aset['id'] ?>" data-merk="<?= $aset['ma_merk'] ?>"
-                                            data-spesifikasi="<?= $aset['ma_spesifikasi'] ?>"
-                                            data-kelompok="<?= $aset['nama_kelompok'] ?>"
-                                            data-kategori="<?= $aset['nama_kategori'] ?>">
-                                            <?= $aset['ma_nama'] ?>
+                                    <?php foreach ($master_aset as $ma): ?>
+                                        <option value="<?= $ma['id'] ?>">
+                                            <?= $ma['ma_nama'] ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -496,14 +424,22 @@ $error = $_GET['error'] ?? '';
 
 </div>
 <!-- Auto Fill Modal Tambah Data -->
+<!-- Auto Fill Modal Tambah Data -->
 <script>
-    document.getElementById("master_aset_id").addEventListener("change", function() {
-        let selected = this.options[this.selectedIndex];
+    const masterAset = <?= json_encode($master_aset, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
+    document.querySelectorAll('#master_aset_id').forEach(select => {
+        select.addEventListener("change", function() {
+            const id = this.value;
+            const modal = this.closest('.modal');
 
-        document.getElementById("merk").value = selected.dataset.merk || '';
-        document.getElementById("spesifikasi_view").innerHTML = selected.dataset.spesifikasi || '';
-        document.getElementById("kelompok_aset").value = selected.dataset.kelompok || '';
-        document.getElementById("kategori_aset").value = selected.dataset.kategori || '';
+            const data = masterAset.find(a => a.id == id);
+            if (!data) return;
+
+            modal.querySelector('#merk').value = data.ma_merk || '';
+            modal.querySelector('#spesifikasi_view').innerHTML = data.ma_spesifikasi || '';
+            modal.querySelector('#kelompok_aset').value = data.nama_kelompok || '';
+            modal.querySelector('#kategori_aset').value = data.nama_kategori || '';
+        });
     });
 </script>
 <!-- Validasi Numeric Input -->

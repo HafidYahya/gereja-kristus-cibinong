@@ -57,7 +57,9 @@
 .container-login section h1,
 .container-login section h2,
 .container-ruangan section h1,
-.container-ruangan section h2 {
+.container-ruangan section h2,
+.container-request-aset section h1,
+.container-request-aset section h2 {
   font-family: var(--font-main) !important;
   color: var(--primary-color) !important;
 }

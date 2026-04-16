@@ -155,6 +155,7 @@ SELECT
     ma.ma_nama,
     ma.ma_merk,
     ma.ma_spesifikasi,
+    ma.ma_is_active,
     mkel.kel_nama AS nama_kelompok,
     mkat.kat_nama AS nama_kategori
 FROM master_aset ma
@@ -600,14 +601,14 @@ $error = $_GET['error'] ?? '';
                                 <div class="col-12 col-lg-6 mb-3">
                                     <label class="form-label">Aset*</label>
                                     <select id="master_aset_id" class="form-control" name="master_aset_id" required>
+                                        <option value="">Pilih Aset</option>
                                         <?php foreach ($master_aset as $ma): ?>
-                                            <option value="<?= $ma['id'] ?>" data-merk="<?= $ma['ma_merk'] ?>"
-                                                data-spesifikasi="<?= htmlspecialchars($ma['ma_spesifikasi']) ?>"
-                                                data-kelompok="<?= $ma['nama_kelompok'] ?>"
-                                                data-kategori="<?= $ma['nama_kategori'] ?>"
-                                                <?= ($ma['id'] == $data['a_master_aset_id']) ? 'selected' : '' ?>>
-                                                <?= $ma['ma_nama'] ?>
-                                            </option>
+                                            <?php if ($ma['ma_is_active'] == 1): ?>
+                                                <option value="<?= $ma['id'] ?>"
+                                                    <?= ($ma['id'] == $data['a_master_aset_id']) ? 'selected' : '' ?>>
+                                                    <?= htmlspecialchars($ma['ma_nama']) ?>
+                                                </option>
+                                            <?php endif; ?>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -781,13 +782,20 @@ $error = $_GET['error'] ?? '';
 
 <!-- Auto Fill Modal Tambah Data -->
 <script>
-    document.getElementById("master_aset_id").addEventListener("change", function() {
-        let selected = this.options[this.selectedIndex];
+    const masterAset = <?= json_encode($master_aset, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
+    document.querySelectorAll('#master_aset_id').forEach(select => {
+        select.addEventListener("change", function() {
+            const id = this.value;
+            const modal = this.closest('.modal');
 
-        document.getElementById("merk").value = selected.dataset.merk || '';
-        document.getElementById("spesifikasi_view").innerHTML = selected.dataset.spesifikasi || '';
-        document.getElementById("kelompok_aset").value = selected.dataset.kelompok || '';
-        document.getElementById("kategori_aset").value = selected.dataset.kategori || '';
+            const data = masterAset.find(a => a.id == id);
+            if (!data) return;
+
+            modal.querySelector('#merk').value = data.ma_merk || '';
+            modal.querySelector('#spesifikasi_view').innerHTML = data.ma_spesifikasi || '';
+            modal.querySelector('#kelompok_aset').value = data.nama_kelompok || '';
+            modal.querySelector('#kategori_aset').value = data.nama_kategori || '';
+        });
     });
 </script>
 <!-- Validasi Numeric Input -->

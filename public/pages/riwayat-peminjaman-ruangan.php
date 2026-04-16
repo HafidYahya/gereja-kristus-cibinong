@@ -94,11 +94,13 @@ function formatTanggalSlash(string $tanggal): string
             <div class="col-lg-8 col-xl-9">
                 <div class="profile-content">
                     <h1 class="mb-3">Riwayat Peminjaman Ruangan</h1>
+                    <small class="text-muted">Hanya menampilkan 7 riwayat terakhir</small>
                     <?php if (empty($dataRiwayat)): ?>
                         <p class="mb-0">Belum ada riwayat peminjaman ruangan.</p>
+
                     <?php else: ?>
                         <div class="table-responsive">
-                            <table class="table table-striped align-middle">
+                            <table class="table table-striped align-middle text-nowrap">
                                 <thead>
                                     <tr>
                                         <th scope="col">Ruangan</th>
@@ -112,10 +114,24 @@ function formatTanggalSlash(string $tanggal): string
                                         <tr>
                                             <td><?= htmlspecialchars($riwayat['r_nama'] ?? '-') ?></td>
                                             <td><?= formatTanggalSlash($riwayat['pr_tanggal']) ?></td>
-                                            <td><?= substr($riwayat['pr_jam_mulai'], 0, 5) ?> - <?= substr($riwayat['pr_jam_selesai'], 0, 5) ?>
+                                            <td><?= substr($riwayat['pr_jam_mulai'], 0, 5) ?> -
+                                                <?= substr($riwayat['pr_jam_selesai'], 0, 5) ?>
                                             </td>
+
+                                            <!-- STATUS -->
+                                            <?php
+                                            $status = $riwayat['pr_status'];
+                                            $badgeClass = match ($status) {
+                                                'pending' => 'bg-warning text-dark',
+                                                'approved' => 'bg-success',
+                                                'finish' => 'bg-primary',
+                                                'cancel' => 'bg-danger',
+                                                default => 'bg-secondary'
+                                            };
+                                            ?>
                                             <td>
-                                                <span class="badge text-bg-secondary"><?= htmlspecialchars($riwayat['pr_status']) ?></span>
+                                                <span style="min-width: 80px"
+                                                    class="badge <?= $badgeClass ?>"><?= ucfirst($riwayat['pr_status']) ?></span>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

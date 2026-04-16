@@ -66,8 +66,8 @@ $page = $_GET['url'] ?? 'home';
                     <!-- Hanya Muncul Untuk Jemaat Yang Sudah Login -->
                     <?php if (isset($_SESSION['jemaat_id']) && !empty($_SESSION['jemaat_id'])): ?>
                         <li class="nav-item">
-                            <a class="nav-link text-center <?= $page === 'aset-gereja' ? 'active' : '' ?>"
-                                href="aset-gereja">Aset Gereja</a>
+                            <a class="nav-link text-center <?= $page === 'request-aset' ? 'active' : '' ?>"
+                                href="request-aset">Request Aset</a>
                         </li>
                     <?php endif; ?>
                 </ul>
