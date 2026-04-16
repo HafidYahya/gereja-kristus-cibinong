@@ -62,7 +62,7 @@ if ($status === 'disetujui') {
         }
 
         // 2. update status aset jadi dipinjam
-        $sql_update_aset = "UPDATE aset SET a_status_aset = 'dipinjam' WHERE id = ?";
+        $sql_update_aset = "UPDATE aset SET a_this_dipinjam = 1 WHERE id = ?";
         $stmt_update = $conn->prepare($sql_update_aset);
 
         foreach ($aset_ids as $aset_id) {
@@ -88,6 +88,8 @@ if ($status === 'disetujui') {
     header("Location: ../../admin?page=approval_aset&filter=$filter&success=Berhasil+disetujui");
     exit();
 } elseif ($status === 'ditolak') {
+    $peminjaman_id = $_POST['id'];
+    $alasan = $_POST['alasan_ditolak'] ?? '';
     $sql = "UPDATE peminjaman_aset 
         SET pa_status = 'ditolak', pa_alasan_ditolak = ? 
         WHERE id = ?";
@@ -118,7 +120,7 @@ if ($status === 'disetujui') {
         }
 
         // 2. update aset jadi tersedia
-        $sql_update = "UPDATE aset SET a_status_aset = 'terpakai' WHERE id = ?";
+        $sql_update = "UPDATE aset SET a_this_dipinjam = 0 WHERE id = ?";
         $stmt_update = $conn->prepare($sql_update);
 
         foreach ($aset_ids as $aset_id) {

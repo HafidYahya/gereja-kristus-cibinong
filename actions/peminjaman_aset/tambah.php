@@ -8,7 +8,8 @@ $qty = $_POST['qty'];
 $sql_stok = "SELECT COUNT(id) AS stok FROM aset 
     WHERE a_master_aset_id = ? 
     AND a_boleh_dipinjam = 1 
-    AND a_status_aset IN ('terpakai', 'tidak_terpakai') 
+    AND a_status_aset IN ('terpakai', 'tidak_terpakai')
+    AND a_this_dipinjam = 0 
     AND a_kondisi_aset NOT IN ('rusak_berat', 'rusak_sedang')";
 
 $stmt = $conn->prepare($sql_stok);

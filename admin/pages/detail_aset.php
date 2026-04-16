@@ -90,6 +90,7 @@ SELECT
     a.a_status_aset,
     a.a_kondisi_aset,
     a.a_boleh_dipinjam,
+    a.a_this_dipinjam,
     a.a_keterangan,
     ma.id AS ma_id,
     ma.ma_nama,
@@ -111,7 +112,7 @@ LEFT JOIN master_kategori_aset mkat
 LEFT JOIN ruangan r 
     ON a.a_lokasi_ruangan_id = r.id
 $whereSql
-ORDER BY a.a_tgl_perolehan DESC, ma.id DESC
+ORDER BY a.a_tgl_perolehan DESC, ma.id DESC, a.a_this_dipinjam DESC
 LIMIT ? OFFSET ?
 ";
 $stmt = $conn->prepare($sql);
@@ -226,7 +227,6 @@ $error = $_GET['error'] ?? '';
                         Terpakai</option>
                     <option value="write_off" <?= $filterStatusAset === 'write_off' ? 'selected' : '' ?>>Write Off
                     </option>
-                    <option value="dipinjam" <?= $filterStatusAset === 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
                 </select>
             </div>
 
@@ -334,7 +334,25 @@ $error = $_GET['error'] ?? '';
 
                                 <td><?= htmlspecialchars($data['r_nama'] ?? '') ?></td>
 
-                                <td><?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_status_aset'] ?? ''))) ?></td>
+                                <?php if ((int)$data['a_this_dipinjam'] === 1) : ?>
+                                    <td>
+                                        <span style="min-width: 80px"
+                                            class="badge bg-primary"><?= str_replace(['-', '_'], ' ', ucwords(strtolower((int)$data['a_this_dipinjam'] === 1 ? 'Dipinjam' : ''))) ?></span>
+                                    </td>
+                                <?php else : ?>
+                                    <?php
+                                    $status = $data['a_status_aset'];
+                                    $badgeClass = match ($status) {
+                                        'terpakai' => 'bg-success',
+                                        'tidak_terpakai' => 'bg-secondary',
+                                        'write_off' => 'bg-danger',
+                                        default => 'bg-secondary'
+                                    };
+                                    ?>
+                                    <td><span style="min-width: 80px"
+                                            class="badge <?= $badgeClass ?>"><?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_status_aset'] ?? ''))) ?></span>
+                                    </td>
+                                <?php endif; ?>
 
                                 <td><?= str_replace(['-', '_'], ' ', ucwords(strtolower($data['a_kondisi_aset'] ?? ''))) ?></td>
 
@@ -755,9 +773,6 @@ $error = $_GET['error'] ?? '';
                                         <option value="write_off"
                                             <?= $data['a_status_aset'] == 'write_off' ? 'selected' : '' ?>>
                                             Write Off</option>
-                                        <option value="dipinjam"
-                                            <?= $data['a_status_aset'] == 'dipinjam' ? 'selected' : '' ?>>
-                                            Dipinjam</option>
                                     </select>
                                 </div>
 

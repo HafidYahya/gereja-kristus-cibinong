@@ -370,11 +370,13 @@ $error = $_GET['error'] ?? '';
                                     <div class="col-4 text-muted">QTY</div>
                                     <div class="col-8"><?= $pa['qty'] ?></div>
 
-                                    <div class="col-4 text-muted">Alasan Ditolak</div>
-                                    <div class="col-8">
-                                        <textarea name="alasan_ditolak" class="form-control" rows="3"
-                                            placeholder="Masukkan alasan jika ditolak..."></textarea>
-                                    </div>
+                                    <?php if ($pa['pa_status'] !== 'disetujui') : ?>
+                                        <div class="col-4 text-muted">Alasan Ditolak</div>
+                                        <div class="col-8">
+                                            <textarea name="alasan_ditolak" class="form-control" rows="3"
+                                                placeholder="Masukkan alasan jika ditolak..."></textarea>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
