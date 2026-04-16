@@ -18,6 +18,17 @@ $result = $stmt->get_result();
 $stok = $result->fetch_assoc()['stok'];
 
 
+// CEK HANYA BOLEH 1x PENGAJUAN JIKA SEBELUMNYA MASIH MEMILIKI PENGAJUAN YANG PENDING
+$sql_cek_pengajuan_pending = "SELECT * FROM peminjaman_aset WHERE pa_jemaat_id = ? AND pa_status='pending'";
+$stmt_cek_pengajuan_pending = $conn->prepare($sql_cek_pengajuan_pending);
+$stmt_cek_pengajuan_pending->bind_param('i', $jemaatId);
+$stmt_cek_pengajuan_pending->execute();
+$result = $stmt_cek_pengajuan_pending->get_result();
+if ($result->num_rows > 0) {
+    header("Location: /gerejakristuscibinong/request-aset?error=Anda+masih+memiliki+pengajuan+yang+belum+diproses.+silahkan+hubungi+admin+untuk+melakukan+proses+sebelum+melakukan+pengajuan+kembali");
+    exit();
+}
+
 // CEK DATA YANG DITERIMA
 if (empty($master_aset_id) || empty($qty)) {
     header("Location: /gerejakristuscibinong/request-aset?error=Data+tidak+lengkap");
