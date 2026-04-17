@@ -15,6 +15,12 @@ if ($ruangan_exist) {
     exit();
 }
 
+// MANDATORY FOTO RUANGAN
+if (!isset($_FILES['gambar_ruangan']) || empty($_FILES['gambar_ruangan']['name']) || empty($_FILES['gambar_ruangan']['tmp_name'])) {
+    header('Location: ../../admin/index.php?page=ruangan&action=tambah&error=Gambar+belum+diunggah');
+    exit();
+}
+
 if (isset($_FILES['gambar_ruangan']) && $_FILES['gambar_ruangan']['error'] !== 4) {
     $file = $_FILES['gambar_ruangan'];
     $namaFile = $file['name'];
@@ -28,11 +34,11 @@ if (isset($_FILES['gambar_ruangan']) && $_FILES['gambar_ruangan']['error'] !== 4
 
     if ($error === 0) {
         if (!in_array($mime, $allowedMime)) {
-            header('Location: ../../admin/index.php?page=ruangan&action=tambah&error=File tidak valid');
+            header('Location: ../../admin/index.php?page=ruangan&action=tambah&error=File+tidak+valid');
             exit();
         }
         if ($size > 20000000) {
-            header('Location: ../../admin/index.php?page=ruangan&action=tambah&tambah&error=Maksimal gambar 20 MB');
+            header('Location: ../../admin/index.php?page=ruangan&action=tambah&tambah&error=Maksimal+gambar+20+MB');
             exit();
         }
         move_uploaded_file($tmpName, __DIR__ . '/../../assets/uploads/ruangan/' . $namaFile);

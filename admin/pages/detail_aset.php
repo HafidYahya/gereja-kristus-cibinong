@@ -112,7 +112,7 @@ LEFT JOIN master_kategori_aset mkat
 LEFT JOIN ruangan r 
     ON a.a_lokasi_ruangan_id = r.id
 $whereSql
-ORDER BY a.a_tgl_perolehan DESC, ma.id DESC, a.a_this_dipinjam DESC
+ORDER BY a.a_this_dipinjam DESC, a.a_tgl_perolehan DESC, ma.id DESC
 LIMIT ? OFFSET ?
 ";
 $stmt = $conn->prepare($sql);

@@ -148,7 +148,7 @@ $error = $_GET['error'] ?? '';
                     <?php $no = $offset + 1; ?>
                     <?php if (empty($peminjaman_ruangan)) : ?>
                         <tr>
-                            <td colspan="6" class="text-center text-muted">
+                            <td colspan="10" class="text-center text-muted">
                                 <i class="fas fa-file-circle-xmark me-3"></i>Data tidak ditemukan
                             </td>
                         </tr>

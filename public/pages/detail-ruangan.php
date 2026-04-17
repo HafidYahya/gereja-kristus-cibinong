@@ -267,6 +267,17 @@ $error = $_GET['error'] ?? '';
             if (selectedSlots.length === 0) {
                 selectedSlots.push(start);
                 this.classList.add('active');
+                updateTime();
+                return;
+            }
+
+            // Reset kalo klik 2x
+            // kalau klik slot yang sudah dipilih → reset
+            if (selectedSlots.includes(start)) {
+                selectedSlots = [];
+                document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('jam_mulai').value = '';
+                document.getElementById('jam_selesai').value = '';
                 return;
             }
 

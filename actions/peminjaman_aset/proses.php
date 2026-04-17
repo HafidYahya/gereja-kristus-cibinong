@@ -9,11 +9,16 @@ $status = $_POST['status'] ?? null;
 $filter = $_POST['filter'] ?? '';
 $alasan_ditolak = $_POST['alasan_ditolak'] ?? '';
 
+
 // validasi dasar
 if (!$id || !$status) {
     header("Location: ../../admin?page=approval_aset&error=Data+tidak+valid");
     exit;
 }
+
+
+
+
 
 // validasi status yang diperbolehkan
 $allowedStatus = ['disetujui', 'ditolak', 'dikembalikan'];
@@ -47,6 +52,29 @@ if ($status === 'disetujui') {
     try {
 
         $peminjaman_id = $_POST['id'];
+        $qty = $_POST['qty'] ?? '';
+        $master_aset_id = $_POST['ma_id'];
+
+        // 0. CEK STOK
+        // MENDAPATKAN STOK TERSEDIA
+        $sql_stok = "SELECT COUNT(id) AS stok FROM aset 
+                    WHERE a_master_aset_id = ? 
+                    AND a_boleh_dipinjam = 1 
+                    AND a_status_aset IN ('terpakai', 'tidak_terpakai')
+                    AND a_this_dipinjam = 0 
+                    AND a_kondisi_aset NOT IN ('rusak_berat', 'rusak_sedang')";
+
+        $stmt = $conn->prepare($sql_stok);
+        $stmt->bind_param("i", $master_aset_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stok = $result->fetch_assoc()['stok'];
+
+        // VALIDASI STOK YANG DAPAT DIAJUKAN
+        if ($qty > $stok) {
+            header("Location: ../../admin?page=approval_aset&filter=$filter&error=Stok+yang+dapat+dipinjam+untuk+aset+ini+adalah+$stok");
+            exit();
+        }
 
         // 1. ambil semua aset dari detail
         $sql = "SELECT dpa_aset_id FROM detail_peminjaman_aset 

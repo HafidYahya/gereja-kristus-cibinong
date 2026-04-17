@@ -86,7 +86,7 @@ $stmt->bind_param($typesData, ...$paramsData);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$sqlTotal = "SELECT COUNT(*) as total
+$sqlTotal = "SELECT COUNT(DISTINCT pa.id) as total
 FROM peminjaman_aset pa
 LEFT JOIN jemaat j ON pa.pa_jemaat_id = j.id
 INNER JOIN detail_peminjaman_aset dpa ON dpa.dpa_peminjaman_aset_id = pa.id
@@ -308,6 +308,12 @@ $error = $_GET['error'] ?? '';
 
                             <!-- HIDDEN ID -->
                             <input type="hidden" name="id" value="<?= $pa['pa_id'] ?>">
+
+                            <!-- HIDDEN INPUT MASTER ID -->
+                            <input type="hidden" name="ma_id" value="<?= $pa['ma_id'] ?>">
+
+                            <!-- HIDDEN INPUT QTY -->
+                            <input type="hidden" name="qty" value="<?= $pa['qty'] ?>">
 
                             <!-- SEKSI: INFORMASI PEMINJAM -->
                             <p class="text-uppercase text-secondary fw-semibold mb-2">

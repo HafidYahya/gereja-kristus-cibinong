@@ -93,12 +93,12 @@ $totalPages = ceil($totalData / $limit);
 $master_aset = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 
 // ================== SELECT MASTER KELOMPOK & KATEGORI ASET ==================
-$sqlKelompok = "SELECT * FROM master_kelompok_aset WHERE kel_is_active = 1";
+$sqlKelompok = "SELECT * FROM master_kelompok_aset WHERE kel_is_active = 1 ORDER BY kel_nama ASC";
 $stmtKelompok = $conn->prepare($sqlKelompok);
 $stmtKelompok->execute();
 $master_kelompok = $stmtKelompok->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$sqlKategori = "SELECT * FROM master_kategori_aset WHERE kat_is_active = 1";
+$sqlKategori = "SELECT * FROM master_kategori_aset WHERE kat_is_active = 1 ORDER BY kat_nama ASC";
 $stmtKategori = $conn->prepare($sqlKategori);
 $stmtKategori->execute();
 $master_kategori = $stmtKategori->get_result()->fetch_all(MYSQLI_ASSOC);
