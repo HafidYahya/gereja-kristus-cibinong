@@ -15,6 +15,17 @@ if (empty($ruangan_id) || empty($tanggal) || empty($mulai) || empty($selesai) ||
     exit();
 }
 
+// CEK HANYA BOLEH 1x PENGAJUAN JIKA SEBELUMNYA MASIH MEMILIKI PENGAJUAN YANG PENDING
+$sql_cek_pengajuan_pending = "SELECT * FROM peminjaman_ruangan WHERE pr_jemaat_id = ? AND pr_status='pending'";
+$stmt_cek_pengajuan_pending = $conn->prepare($sql_cek_pengajuan_pending);
+$stmt_cek_pengajuan_pending->bind_param('i', $jemaatId);
+$stmt_cek_pengajuan_pending->execute();
+$result = $stmt_cek_pengajuan_pending->get_result();
+if ($result->num_rows > 0) {
+    header("Location: /gerejakristuscibinong/detail-ruangan?r=$ruangan_id&error=Anda+masih+memiliki+pengajuan+yang+belum+diproses.+silahkan+hubungi+admin+untuk+melakukan+proses+sebelum+melakukan+pengajuan+kembali");
+    exit();
+}
+
 // CEK KONFLIK PEMINJAMAN
 $stmt = $conn->prepare("
     SELECT * FROM peminjaman_ruangan 

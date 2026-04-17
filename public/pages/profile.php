@@ -61,10 +61,12 @@ $error = $_GET['error'] ?? '';
                                     <div id="collapseRiwayat" class="accordion-collapse collapse"
                                         aria-labelledby="headingRiwayat" data-bs-parent="#accordionRiwayat">
                                         <div class="accordion-body p-0">
-                                            <a href="riwayat-peminjaman-ruangan" class="profile-sidebar__child-link d-block">
+                                            <a href="riwayat-peminjaman-ruangan"
+                                                class="profile-sidebar__child-link d-block">
                                                 Peminjaman Ruangan
                                             </a>
-                                            <a href="#" class="profile-sidebar__child-link d-block">
+                                            <a href="riwayat-peminjaman-aset"
+                                                class="profile-sidebar__child-link d-block">
                                                 Peminjaman Aset
                                             </a>
                                         </div>
@@ -132,37 +134,37 @@ $error = $_GET['error'] ?? '';
 </main>
 
 <script>
-    document.getElementById("no_hp").addEventListener("input", function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
-    const fotoInput = document.getElementById("foto_profile");
-    const fotoPreview = document.getElementById("foto_preview");
+document.getElementById("no_hp").addEventListener("input", function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+const fotoInput = document.getElementById("foto_profile");
+const fotoPreview = document.getElementById("foto_preview");
 
-    if (fotoInput) {
-        fotoInput.addEventListener("change", function() {
-            const file = this.files[0];
-            if (file) {
-                fotoPreview.src = URL.createObjectURL(file);
-            }
-        });
-    }
+if (fotoInput) {
+    fotoInput.addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+            fotoPreview.src = URL.createObjectURL(file);
+        }
+    });
+}
 </script>
 <script>
-    <?php if ($success !== '') : ?>
-        Swal.fire({
-            title: "Berhasil",
-            text: "<?= $success ?>",
-            icon: "success",
-            draggable: true
-        });
-    <?php endif; ?>
+<?php if ($success !== '') : ?>
+Swal.fire({
+    title: "Berhasil",
+    text: "<?= $success ?>",
+    icon: "success",
+    draggable: true
+});
+<?php endif; ?>
 
-    <?php if ($error !== '') : ?>
-        Swal.fire({
-            title: "Gagal!",
-            text: "<?= $error ?>",
-            icon: "error",
-            draggable: true
-        });
-    <?php endif; ?>
+<?php if ($error !== '') : ?>
+Swal.fire({
+    title: "Gagal!",
+    text: "<?= $error ?>",
+    icon: "error",
+    draggable: true
+});
+<?php endif; ?>
 </script>

@@ -46,10 +46,12 @@ $error = $_GET['error'] ?? '';
                                     <div id="collapseRiwayat" class="accordion-collapse collapse"
                                         aria-labelledby="headingRiwayat" data-bs-parent="#accordionRiwayat">
                                         <div class="accordion-body p-0">
-                                            <a href="riwayat-peminjaman-ruangan" class="profile-sidebar__child-link d-block">
+                                            <a href="riwayat-peminjaman-ruangan"
+                                                class="profile-sidebar__child-link d-block">
                                                 Peminjaman Ruangan
                                             </a>
-                                            <a href="#" class="profile-sidebar__child-link d-block">
+                                            <a href="riwayat-peminjaman-aset"
+                                                class="profile-sidebar__child-link d-block">
                                                 Peminjaman Aset
                                             </a>
                                         </div>
@@ -72,11 +74,13 @@ $error = $_GET['error'] ?? '';
                     <form action="actions/jemaat/ganti_password.php" method="POST">
                         <div class="mb-3">
                             <label for="password_lama" class="form-label">Password Lama</label>
-                            <input type="password" class="form-control" id="password_lama" name="password_lama" required>
+                            <input type="password" class="form-control" id="password_lama" name="password_lama"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="password_baru" class="form-label">Password Baru</label>
-                            <input type="password" class="form-control" id="password_baru" name="password_baru" required>
+                            <input type="password" class="form-control" id="password_baru" name="password_baru"
+                                required>
                         </div>
                         <div class="mb-4">
                             <label for="konfirmasi_password_baru" class="form-label">Konfirmasi Password Baru</label>

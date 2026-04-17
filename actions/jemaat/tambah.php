@@ -1,7 +1,7 @@
 <?php
 include "../../config/koneksi.php";
 $nama = $_POST['nama'];
-$email = $_POST['email'];
+$email = trim(strtolower($_POST['email']));
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 $no_hp = $_POST['no_hp'];
