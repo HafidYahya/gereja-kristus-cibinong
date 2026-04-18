@@ -65,7 +65,7 @@ if ($filterKategori !== '') {
 }
 
 if ($search !== '') {
-    $where[] = "(ma_nama LIKE ? OR ma_merk LIKE ?)";
+    $where[] = "(ma.ma_nama LIKE ? OR a.id LIKE ?)";
     $types .= "ss";
     $like = "%$search%";
     $params[] = $like;
@@ -263,7 +263,7 @@ $error = $_GET['error'] ?? '';
                     <span class="input-group-text bg-white border border-warning border-end-0" id="search"><i
                             class="fas fa-search text-secondary"></i></span>
                     <input type="text" name="search" class="form-control border-start-0 border border-warning"
-                        placeholder="Cari nama atau merk aset" aria-label="Search" aria-describedby="search"
+                        placeholder="Cari ID atau nama aset" aria-label="Search" aria-describedby="search"
                         value="<?= htmlspecialchars($search) ?>">
                 </div>
             </div>
@@ -280,6 +280,7 @@ $error = $_GET['error'] ?? '';
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>ID Aset</th>
                         <th>Nama</th>
                         <th>Merk</th>
                         <th>Kelompok Aset</th>
@@ -308,6 +309,8 @@ $error = $_GET['error'] ?? '';
                         <?php foreach ($aset as $data) : ?>
                             <tr>
                                 <td><?= $no++ ?></td>
+
+                                <td><?= htmlspecialchars($data['a_id'] ?? '-') ?></td>
 
                                 <td><?= htmlspecialchars($data['ma_nama'] ?? '-') ?></td>
 

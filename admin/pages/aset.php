@@ -389,7 +389,6 @@ $error = $_GET['error'] ?? '';
                                     <option value="">Pilih Status</option>
                                     <option value="terpakai">Terpakai</option>
                                     <option value="tidak_terpakai">Tidak Terpakai</option>
-                                    <option value="write_off">Write Off</option>
                                 </select>
                             </div>
 
